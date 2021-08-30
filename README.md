@@ -3,35 +3,42 @@
 #### 介绍
 该项目用于学习、实践技术
 
-#### 软件架构
-软件架构说明
+#### java知识图谱
+| 序号 | 内容 | 框架 | 版本 | 状态 | 分享者 |文档地址|
+|----|----|----|----|----|----|----|
+|0|框架|Spring Boot|2.2.5|已接入|唐江旭||
+|1|服务发现及配置中心|Nacos|2.2.1|已接入|唐江旭||
+|2|日志|slf4j、logback|6.4|已接入|唐江旭||
+|3|接口文档|Swagger|2.2.9.2|已接入|唐江旭||
 
 
-#### 安装教程
-
-1.  xxxx
-2.  xxxx
-3.  xxxx
-
-#### 使用说明
-
-1.  xxxx
-2.  xxxx
-3.  xxxx
-
-#### 参与贡献
-
-1.  Fork 本仓库
-2.  新建 Feat_xxx 分支
-3.  提交代码
-4.  新建 Pull Request
-
-
-#### 特技
-
-1.  使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md
-2.  Gitee 官方博客 [blog.gitee.com](https://blog.gitee.com)
-3.  你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解 Gitee 上的优秀开源项目
-4.  [GVP](https://gitee.com/gvp) 全称是 Gitee 最有价值开源项目，是综合评定出的优秀开源项目
-5.  Gitee 官方提供的使用手册 [https://gitee.com/help](https://gitee.com/help)
-6.  Gitee 封面人物是一档用来展示 Gitee 会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
+ --------（待接入）----------
+4. Mysql使用规范及优化
+5. Mybatis
+6. Redis
+7. Kafka
+8. Java基础知识
+9. 多线程使用
+10. 分布式任务调度器
+11. 分布式id生成器
+12. 分布式事务
+13. JVM调优
+14. 调用链监控
+15. 网关
+16. 服务限流、降级、熔断
+17. 搜索中心 - ElasticSearch
+18. Spring boot、Spring cloud
+19. Socket通信
+20. 单点登录
+21. Oauth2.0
+22. 数据结构
+23. 秒杀系统
+24. 工具类
+25. 单元测试
+26. 分布式锁
+27. 设计模式
+28. 算法
+29. IDEA
+30. git使用
+31. Linux
+32. bug汇总
