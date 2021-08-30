@@ -1,0 +1,9 @@
+#仅用于备份
+server:
+  port : 8081
+spring:
+  application:
+    name : yc-demo
+
+test:
+  name : lisi
