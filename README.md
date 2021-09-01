@@ -3,6 +3,13 @@
 #### 介绍
 该项目用于学习、实践技术
 
+#### 项目结构说明
+| 序号 | 文件夹 | 说明 |
+|----|----|----|
+|1|core|核心业务|
+|2|file|项目的原始文件|
+
+
 #### java知识图谱
 ![Image java知识图谱](http://content-sel.oss-cn-hangzhou.aliyuncs.com/BizPlatform/7558cb739afa49b3b1946b5abfb5203c.png)
 
