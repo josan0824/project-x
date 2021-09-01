@@ -3,7 +3,4 @@ server:
   port : 8081
 spring:
   application:
-    name : yc-demo
-
-test:
-  name : lisi
+    name : yc-core

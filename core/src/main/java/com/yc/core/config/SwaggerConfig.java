@@ -1,4 +1,4 @@
-package com.yc.ycdemo.config;
+package com.yc.core.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

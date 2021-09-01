@@ -1,4 +1,4 @@
-package com.yc.ycdemo.controller;
+package com.yc.core.controller;
 
 import io.swagger.annotations.Api;
 import org.springframework.web.bind.annotation.RequestMapping;

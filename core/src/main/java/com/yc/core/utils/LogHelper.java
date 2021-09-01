@@ -1,4 +1,4 @@
-package com.yc.ycdemo.utils;
+package com.yc.core.utils;
 
 import com.alibaba.fastjson.JSON;
 import org.slf4j.Logger;
