@@ -1,9 +1,9 @@
-public class Book {
+public class Book2 {
     private String bookName;
 
     private String author;
 
-    public Book() {
+    public Book2() {
     }
 
     public String getBookName() {
@@ -23,12 +23,12 @@ public class Book {
     }
 
     public void printBookInfo() {
-        System.out.println("Book Name：" + this.bookName + ",Author：" + this.author);
+        System.out.println("Book2 Name：" + this.bookName + ",Author：" + this.author);
     }
 
     @Override
     public String toString() {
-        return "Book{" +
+        return "Book2{" +
                 "bookName='" + bookName + '\'' +
                 ", author='" + author + '\'' +
                 '}';
