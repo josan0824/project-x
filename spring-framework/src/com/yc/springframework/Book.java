@@ -1,9 +1,11 @@
-public class Book2 {
+package com.yc.springframework;
+
+public class Book {
     private String bookName;
 
     private String author;
 
-    public Book2() {
+    public Book() {
     }
 
     public String getBookName() {
@@ -23,12 +25,12 @@ public class Book2 {
     }
 
     public void printBookInfo() {
-        System.out.println("Book2 Name：" + this.bookName + ",Author：" + this.author);
+        System.out.println("Book Name：" + this.bookName + ",Author：" + this.author);
     }
 
     @Override
     public String toString() {
-        return "Book2{" +
+        return "Book{" +
                 "bookName='" + bookName + '\'' +
                 ", author='" + author + '\'' +
                 '}';

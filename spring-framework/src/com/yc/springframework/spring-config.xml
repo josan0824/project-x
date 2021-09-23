@@ -2,16 +2,19 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
-    <bean id="book" class="Book" scope="singleton">
+    <bean id="book" class="com.yc.springframework.Book" scope="singleton">
         <property name="bookName" value="平凡的世界"/>
         <property name="author" value="路遥"/>
     </bean>
-    <bean id="book2" class="Book2" scope="prototype">
+    <bean id="book2" class="com.yc.springframework.Book2" scope="prototype">
         <property name="bookName" value="平凡的世界"/>
         <property name="author" value="路遥"/>
     </bean>
-    <bean id="bookService" class="BookService">
-        <property name="book" ref="book" />
+    <bean id="ditest" class="com.yc.springframework.DITest">
+        <property name="book" ref="book"/>
     </bean>
 
+    <bean id="bookService" class="com.yc.springframework.BookService">
+        <property name="book" ref="book" />
+    </bean>
 </beans>

@@ -1,3 +1,5 @@
+package com.yc.springframework;
+
 public class BookService {
     //以前的写法
     //private Book book = new Book();
