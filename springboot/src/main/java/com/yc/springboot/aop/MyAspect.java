@@ -1,10 +1,8 @@
 package com.yc.springboot.aop;
 
 import org.aspectj.lang.JoinPoint;
-import org.aspectj.lang.annotation.After;
-import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
-import org.aspectj.lang.annotation.Pointcut;
+import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.annotation.*;
 import org.springframework.stereotype.Component;
 
 
@@ -16,18 +14,48 @@ import org.springframework.stereotype.Component;
 public class MyAspect {
 
     //通过规则确定哪些方法是需要增强的
-
-    @Pointcut("execution (public * com.yc.springboot.controller..*.*(..))")
+    @Pointcut("execution (public * com.yc.springboot.controller.MyController.*())")
     public void controller(){};
 
+    //前置通知
     @Before("controller()")
     public void before(JoinPoint joinPoint){
-        System.out.println("before");
+        System.out.println("before advice");
     }
 
+    //返回通知
+    @AfterReturning(
+            pointcut = "controller()",
+            returning = "retVal"
+    )
+    public void afterReturning(Object retVal) {
+        System.out.println("after returning advice, 返回结果 retVal:" + retVal);
+    }
+
+    //异常通知
+    @AfterThrowing(
+            pointcut = "controller()",
+            throwing = "ex"
+    )
+    public void afterThrowing(Exception ex) {
+        System.out.println("after throwing advice, 异常 ex:" + ex.getMessage());
+    }
+
+    //后置通知
     @After("controller()")
     public void after(JoinPoint joinPoint) {
-        System.out.println("after");
+        System.out.println("after advice");
     }
 
+    //环绕通知
+    @Around("controller()")
+    public Object around(ProceedingJoinPoint joinPoint) throws Throwable {
+        System.out.println("around advice");
+        System.out.println("before advice");
+        //相当于是before advice
+        Object reVal = joinPoint.proceed();
+        //相当于是after advice
+        System.out.println("after advice");
+        return reVal;
+    }
 }
