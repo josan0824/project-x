@@ -15,11 +15,12 @@ public class MyAspect {
 
     //通过规则确定哪些方法是需要增强的
     @Pointcut("execution (public * com.yc.springboot.controller.MyController.*())")
-    public void controller(){};
+    public void controller() {
+    }
 
     //前置通知
     @Before("controller()")
-    public void before(JoinPoint joinPoint){
+    public void before(JoinPoint joinPoint) {
         System.out.println("before advice");
     }
 
@@ -50,10 +51,15 @@ public class MyAspect {
     //环绕通知
     @Around("controller()")
     public Object around(ProceedingJoinPoint joinPoint) throws Throwable {
-        System.out.println("around advice");
         System.out.println("before advice");
         //相当于是before advice
-        Object reVal = joinPoint.proceed();
+        Object reVal = null;
+        try {
+            reVal = joinPoint.proceed();
+        } catch (Exception e) {
+            //相当于afterthrowing advice
+            System.out.println("afterthrowing advice");
+        }
         //相当于是after advice
         System.out.println("after advice");
         return reVal;
