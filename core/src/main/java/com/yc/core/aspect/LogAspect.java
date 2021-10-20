@@ -56,7 +56,7 @@ public class LogAspect {
         long endTime = System.currentTimeMillis();
         //打印结果
         LogHelper.writeInfoLog(className, methodName, "requestId:" + requestId + ",耗时：" + (endTime - startTime) +  "ms，result:" + JSONObject.toJSONString(result));
-        //返回
+        //返回1
         return result;
     }
 
