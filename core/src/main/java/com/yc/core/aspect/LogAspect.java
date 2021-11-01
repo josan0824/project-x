@@ -24,8 +24,11 @@ public class LogAspect {
     @Resource
     private IdWorker idWorker;
 
-    @Pointcut("execution (public * com.yc.core.controller.*.*(..))")
+    @Pointcut("execution(public * com.yc.core.controller.*.*(..))")
     public void log(){}
+
+    @Pointcut("@annotation(com.yc.core.annotation.Log)")
+    public void logAnnotation(){}
 
     /**
      * 使用环绕通知实现日志打印
@@ -33,7 +36,7 @@ public class LogAspect {
      * @return
      * @throws Throwable
      */
-    @Around("log()")
+    @Around("logAnnotation()")
     public Object logAround(ProceedingJoinPoint joinPoint) throws Throwable {
         //获得执行方法的类和名称
         String className = joinPoint.getTarget().getClass().getName();
@@ -56,7 +59,7 @@ public class LogAspect {
         long endTime = System.currentTimeMillis();
         //打印结果
         LogHelper.writeInfoLog(className, methodName, "requestId:" + requestId + ",耗时：" + (endTime - startTime) +  "ms，result:" + JSONObject.toJSONString(result));
-        //返回1
+        //返回
         return result;
     }
 
