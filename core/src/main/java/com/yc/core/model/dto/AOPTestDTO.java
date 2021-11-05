@@ -6,7 +6,7 @@ import lombok.Data;
 
 @Data
 @ApiModel("aop测试类")
-public class AOPTestDTO {
+public class AOPTestDTO extends AOPBaseDTO{
 
     @ApiModelProperty(value = "姓名")
     private String name;

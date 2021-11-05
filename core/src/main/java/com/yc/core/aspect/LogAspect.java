@@ -1,6 +1,7 @@
 package com.yc.core.aspect;
 
 import com.alibaba.fastjson.JSONObject;
+import com.yc.core.model.dto.AOPTestDTO;
 import com.yc.core.utils.IdWorker;
 import com.yc.core.utils.LogHelper;
 import org.aspectj.lang.ProceedingJoinPoint;
@@ -52,7 +53,14 @@ public class LogAspect {
         //执行业务方法
         Object result = null;
         try {
-            result = joinPoint.proceed();
+            Object[] newParam = new Object[args.length + 1];
+            for(int i = 0; i < args.length; i++) {
+                if (args[i] instanceof AOPTestDTO) {
+                    AOPTestDTO tempAopTestDTO = (AOPTestDTO) args[i];
+                    tempAopTestDTO.setRequestId(requestId);
+                }
+            }
+            result = joinPoint.proceed(newParam);
         } catch (Exception e) {
             LogHelper.writeErrLog(className, methodName, "requestId:" + requestId + ",异常啦：" + LogAspect.getStackTrace(e));
         }
