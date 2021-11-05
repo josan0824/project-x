@@ -19,7 +19,7 @@ public class AOPTestController {
     public AOPTestVO testannotation(@RequestBody AOPTestDTO aopTestDTO) {
         AOPTestVO aopTestVO = new AOPTestVO();
         aopTestVO.setCode(1);
-        aopTestVO.setMsg("哈哈哈");
+        aopTestVO.setMsg("调用成功");
         return aopTestVO;
     }
 

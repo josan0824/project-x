@@ -1,6 +1,7 @@
 package com.yc.core.aspect;
 
 import com.alibaba.fastjson.JSONObject;
+import com.yc.core.model.dto.AOPBaseDTO;
 import com.yc.core.model.dto.AOPTestDTO;
 import com.yc.core.utils.IdWorker;
 import com.yc.core.utils.LogHelper;
@@ -32,7 +33,7 @@ public class LogAspect {
     public void logAnnotation(){}
 
     /**
-     * 使用环绕通知实现日志打印
+     * 使用环绕增强实现日志打印
      * @param joinPoint
      * @return
      * @throws Throwable
@@ -47,20 +48,19 @@ public class LogAspect {
         //获得参数
         Object[] args = joinPoint.getArgs();
         long requestId = idWorker.nextId();
+        for(int i = 0; i < args.length; i++) {
+            if (args[i] instanceof AOPBaseDTO) {
+                //增加requestId
+                ((AOPBaseDTO) args[i]).setRequestId(requestId);
+            }
+        }
         //打印参数
         LogHelper.writeInfoLog(className, methodName, "requestId:" + requestId + ",params:" + JSONObject.toJSONString(args));
         long startTime = System.currentTimeMillis();
         //执行业务方法
         Object result = null;
         try {
-            Object[] newParam = new Object[args.length + 1];
-            for(int i = 0; i < args.length; i++) {
-                if (args[i] instanceof AOPTestDTO) {
-                    AOPTestDTO tempAopTestDTO = (AOPTestDTO) args[i];
-                    tempAopTestDTO.setRequestId(requestId);
-                }
-            }
-            result = joinPoint.proceed(newParam);
+            result = joinPoint.proceed(args);
         } catch (Exception e) {
             LogHelper.writeErrLog(className, methodName, "requestId:" + requestId + ",异常啦：" + LogAspect.getStackTrace(e));
         }
