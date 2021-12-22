@@ -6,7 +6,6 @@
         <groupId>com.yc</groupId>
         <artifactId>yc-demo</artifactId>
         <version>0.0.1-SNAPSHOT</version>
-        <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.yc</groupId>
     <artifactId>spring-framework</artifactId>
@@ -96,5 +95,6 @@
             </plugin>
         </plugins>
     </build>
+
 
 </project>
