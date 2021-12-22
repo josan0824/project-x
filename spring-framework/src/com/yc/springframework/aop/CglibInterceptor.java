@@ -28,10 +28,10 @@ public class CglibInterceptor implements MethodInterceptor {
 
     @Override
     public Object intercept(Object obj, Method method, Object[] args, MethodProxy methodProxy) throws Throwable {
-        System.out.println("cglib动态代理 调用业务方法之前");
+        //System.out.println("cglib动态代理 调用业务方法之前");
         //通过代理类调用父类中的方法
         Object reVal = methodProxy.invokeSuper(obj, args);
-        System.out.println("cglib动态代理 调用业务方法之后");
+        //System.out.println("cglib动态代理 调用业务方法之后");
         return reVal;
     }
 }

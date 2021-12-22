@@ -4,6 +4,9 @@ import com.yc.core.annotation.Log;
 import com.yc.core.model.dto.AOPTestDTO;
 import com.yc.core.model.vo.AOPTestVO;
 import io.swagger.annotations.Api;
+import org.springframework.aop.framework.AopContext;
+import org.springframework.aop.framework.AopProxy;
+import org.springframework.aop.framework.AopProxyFactory;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,15 +17,30 @@ import org.springframework.web.bind.annotation.RestController;
 @Api(tags = "测试AOP")
 public class AOPTestController {
 
+
+    @Log
+    @PostMapping(value = "a")
+    public String a() {
+        ((AOPTestController)AopContext.currentProxy()).b();
+        return "a";
+    }
+
+    @Log
+    @PostMapping(value = "b")
+    public String b() {
+        return "b";
+    }
+
     @Log
     @PostMapping(value = "testannotation")
     public AOPTestVO testannotation(@RequestBody AOPTestDTO aopTestDTO) {
         AOPTestVO aopTestVO = new AOPTestVO();
         aopTestVO.setCode(1);
         aopTestVO.setMsg("调用成功");
+        testLog(aopTestDTO);
         return aopTestVO;
     }
-
+    @Log
     @PostMapping(value = "testlog")
     public AOPTestVO testLog(@RequestBody AOPTestDTO aopTestDTO) {
         AOPTestVO aopTestVO = new AOPTestVO();

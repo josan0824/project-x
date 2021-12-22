@@ -5,6 +5,6 @@ package com.yc.springframework.aop;
  */
 public class Cat {
     public void call() {
-        System.out.println("Cat call");
+        //System.out.println("Cat call");
     }
 }

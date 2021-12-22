@@ -1,12 +1,15 @@
 package com.yc.core;
 
 import com.yc.core.utils.LogHelper;
+import org.springframework.aop.framework.AopContext;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.context.annotation.EnableAspectJAutoProxy;
 
 @SpringBootApplication(scanBasePackages = "com.yc.core")
 @EnableDiscoveryClient
+@EnableAspectJAutoProxy(proxyTargetClass = true, exposeProxy = true)
 public class CoreApplication {
 
     private static final String CLASS_NAME = "CoreApplication";

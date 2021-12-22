@@ -4,32 +4,24 @@ import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.*;
 import org.springframework.core.Ordered;
-import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 
-@Aspect //告诉Spring 这是一个切面
+//@Aspect //告诉Spring 这是一个切面
 @Component  //告诉Spring容器需要管理该对象
-public class MyAspect implements Ordered {
+public class MyAspect2 implements Ordered {
 
     //通过规则确定哪些方法是需要增强的
     @Pointcut("execution (public * com.yc.springboot.controller.MyController.*())")
     public void controller() {
     }
 
-/*    //前置增强
+    //前置通知
     @Before("controller()")
-    public void before1(JoinPoint joinPoint) {
-        System.out.println("before1 advice");
-    }*/
-
-    //前置增强
-    @Before("controller()")
-    public void before2(JoinPoint joinPoint) {
+    public void before(JoinPoint joinPoint) {
         System.out.println("before2 advice");
     }
-
-    //返回增强
+    //返回通知
     @AfterReturning(
             pointcut = "controller()",
             returning = "retVal"
@@ -38,7 +30,7 @@ public class MyAspect implements Ordered {
         System.out.println("after returning advice, 返回结果 retVal:" + retVal);
     }
 
-    //异常增强
+    //异常通知
     @AfterThrowing(
             pointcut = "controller()",
             throwing = "ex"
@@ -47,13 +39,13 @@ public class MyAspect implements Ordered {
         System.out.println("after throwing advice, 异常 ex:" + ex.getMessage());
     }
 
-    //后置增强
+    //后置通知
     @After("controller()")
     public void after(JoinPoint joinPoint) {
         System.out.println("after advice");
     }
 
-    //环绕增强
+    //环绕通知
     @Around("controller()")
     public Object around(ProceedingJoinPoint joinPoint) throws Throwable {
         System.out.println("around before advice");
@@ -72,6 +64,6 @@ public class MyAspect implements Ordered {
 
     @Override
     public int getOrder() {
-        return 100;
+        return 20;
     }
 }

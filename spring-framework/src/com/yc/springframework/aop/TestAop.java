@@ -16,11 +16,11 @@ public class TestAop {
 
         //2.jdk动态代理
         //被代理的目标业务类
-/*        Object jdkTarget = new Dog();
+/*        Animal jdkTarget = new Dog();
         //将目标业务类和横切代码编织到一起
         JDKProxyHandler jdkProxyHandler = new JDKProxyHandler(jdkTarget);
         //创建代理对象
-        Animal jdkAnimal = (Animal) Proxy.newProxyInstance(TestAop.class.getClassLoader(), jdkTarget.getClass().getInterfaces(), jdkProxyHandler);
+        Animal jdkAnimal = (Animal) Proxy.newProxyInstance(jdkTarget.getClass().getClassLoader(), jdkTarget.getClass().getInterfaces(), jdkProxyHandler);
         //调用代理类的方法
         jdkAnimal.call();*/
 

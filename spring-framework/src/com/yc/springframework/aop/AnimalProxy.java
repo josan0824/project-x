@@ -13,9 +13,9 @@ public class AnimalProxy implements Animal{
 
     @Override
     public void call() {
-        System.out.println("调用业务方法之前执行");
+        //System.out.println("调用业务方法之前执行");
         //调用被代理对象的业务方法
         animal.call();
-        System.out.println("调用业务方法之后执行");
+        //System.out.println("调用业务方法之后执行");
     }
 }

@@ -27,10 +27,10 @@ public class JDKProxyHandler implements InvocationHandler {
      */
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-        System.out.println("jdk动态代理 调用业务方法之前");
+        //System.out.println("jdk动态代理 调用业务方法之前");
         //利用反射调用业务类的目标方法
         Object reVal = method.invoke(target, args);
-        System.out.println("jdk动态代理 调用业务方法之后");
+        //System.out.println("jdk动态代理 调用业务方法之后");
         return reVal;
     }
 }

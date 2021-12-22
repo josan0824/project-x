@@ -8,6 +8,11 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/my")
 public class MyController {
 
+    @GetMapping("/test")
+    public void test() {
+        System.out.println("test 业务方法");
+    }
+
     @GetMapping("/testBefore")
     public void testBefore() {
         System.out.println("testBefore 业务方法");

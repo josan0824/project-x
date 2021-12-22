@@ -7,6 +7,6 @@ public class Dog implements Animal {
 
     @Override
     public void call() {
-        System.out.println("Dog call");
+        //System.out.println("Dog call");
     }
 }
