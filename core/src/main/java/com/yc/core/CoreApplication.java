@@ -1,7 +1,6 @@
 package com.yc.core;
 
 import com.yc.core.utils.LogHelper;
-import org.springframework.aop.framework.AopContext;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
@@ -16,6 +15,7 @@ public class CoreApplication {
     public static void main(String[] args) {
         LogHelper.writeInfoLog(CLASS_NAME, "main", "开始启动");
         SpringApplication.run(CoreApplication.class, args);
+
         LogHelper.writeInfoLog(CLASS_NAME, "main", "启动成功");
     }
 
