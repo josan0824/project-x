@@ -1,5 +1,6 @@
 package com.yc.core.controller;
 
+import com.yc.core.utils.RedisUtils;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,25 +15,25 @@ import org.springframework.web.bind.annotation.RestController;
 public class RedisTestController {
 
     @Autowired
-    private RedisTemplate redisTemplate;
+    private RedisUtils redisUtils;
 
     @GetMapping(value = "set")
     @ApiOperation(value="set", notes ="设置redis")
     public String set(String key, String value) {
-        redisTemplate.opsForValue().set(key, value);
+        redisUtils.set(key, value);
         return "ok";
     }
 
     @GetMapping(value = "get")
     @ApiOperation(value="get", notes ="得到redis的值")
     public String get(String key) {
-        return (String) redisTemplate.opsForValue().get(key);
+        return (String) redisUtils.get(key);
     }
 
     @GetMapping(value = "delete")
     @ApiOperation(value="delete", notes ="删除redis的值")
     public String delete(String key) {
-        redisTemplate.delete(key);
+        redisUtils.del(key);
         return "ok";
     }
 
