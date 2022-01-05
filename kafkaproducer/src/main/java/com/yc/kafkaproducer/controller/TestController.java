@@ -1,8 +1,8 @@
 package com.yc.kafkaproducer.controller;
 
+import com.yc.kafkaproducer.annotation.Log;
 import com.yc.kafkaproducer.sender.KafkaSender;
 import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,10 +23,13 @@ public class TestController {
     @Autowired
     private KafkaSender kafkaSender;
 
+    @Log
     @ApiModelProperty("发送消息")
     @GetMapping("sendMsg")
     public String sendMsg() {
-        kafkaSender.send("test", "gaga");
+        for (int i = 0; i< 100;i++) {
+            kafkaSender.send("test", "" + i);
+        }
         return "ok";
     }
 }
