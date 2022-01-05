@@ -20,5 +20,6 @@
         <module>core</module>
         <module>spring-framework</module>
         <module>springboot</module>
+        <module>kafkaproducer</module>
     </modules>
 </project>
