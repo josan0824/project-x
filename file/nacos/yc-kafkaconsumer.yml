@@ -1,0 +1,23 @@
+spring:
+  kafka:
+    bootstrap-servers: 127.0.0.1:9092  #bootstrap-servers：连接kafka的地址，多个地址用逗号分隔
+    consumer:
+      group-id: myGroup
+      enable-auto-commit: false
+      auto-commit-interval: 100ms
+      properties:
+        session.timeout.ms: 15000
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      auto-offset-reset: earliest
+    producer:
+      acks: 1
+      batch-size: 33554431
+      bootstrap-servers: ${spring.kafka.bootstrap-servers}
+      properties:
+        max.request.size: 52428800
+    listener:
+      #listner负责ack，每调用一次，就立即commit
+      batch-listener: true
+      ack-mode: manual_immediate
+      missing-topics-fatal: false

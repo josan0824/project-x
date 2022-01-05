@@ -1,0 +1,16 @@
+https://blog.csdn.net/lizhitao/article/details/39499283
+cmd到windows目录下
+
+开启Zookeeper服务，执行下面命令行
+zookeeper-server-start.bat ../../config/zookeeper.properties
+
+开启Kafka服务：
+kafka-server-start.bat ../../config/server.properties
+
+创建Topic
+创建一个名为test的topic
+kafka-topics.bat --create --bootstrap-server localhost:9092 --replication-factor 1 --partitions 1 --topic test
+
+可以通过下面的指令查看topic：
+bin/kafka-topics.sh --list --bootstrap-server localhost:9092
+test

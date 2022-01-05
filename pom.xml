@@ -21,5 +21,6 @@
         <module>spring-framework</module>
         <module>springboot</module>
         <module>kafkaproducer</module>
+        <module>kafkaconsumer</module>
     </modules>
 </project>
