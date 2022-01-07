@@ -1,6 +1,6 @@
 spring:
   application :
-    name : yc-kafkaproducer
+    name : yc-core
   cloud:
     nacos:
       config:
