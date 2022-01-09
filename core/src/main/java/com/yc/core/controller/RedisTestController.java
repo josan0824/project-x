@@ -6,10 +6,13 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 @RestController
 @RequestMapping("redis")
@@ -165,7 +168,6 @@ public class RedisTestController {
         return redisUtils.hmget(key);
     }
 
-
     /**
      *
      * @param key 键
@@ -211,4 +213,230 @@ public class RedisTestController {
         return redisUtils.hdecr(key, item, by);
     }
 
+    // ============================set=============================
+
+    /**
+     * 设置set的值
+     * @param key
+     * @param values
+     * @return
+     */
+    @GetMapping(value = "sSet")
+    @ApiOperation(value="sSet", notes ="sSet")
+    public long sSet(String key, String values) {
+        return redisUtils.sSet(key, values);
+    }
+
+    /**
+     * 得到set的值
+     * @param key
+     * @return
+     */
+    @GetMapping(value = "sGet")
+    @ApiOperation(value="sGet", notes ="sGet")
+    public Set<Object> sGet(String key) {
+        return redisUtils.sGet(key);
+    }
+
+    /**
+     * 根据value从一个set中查询,是否存在
+     * @param key 键
+     * @param value 值
+     * @return true 存在 false不存在
+     */
+    @GetMapping(value = "sHasKey")
+    @ApiOperation(value="sHasKey", notes ="sHasKey")
+    public boolean sHasKey(String key, String value) {
+        return redisUtils.sHasKey(key, value);
+    }
+
+    /**
+     * 将set数据放入缓存
+     * @param key 键
+     * @param time 时间(秒)
+     * @param values 值 可以是多个
+     * @return 成功个数
+     */
+    @GetMapping(value = "sSetAndTime")
+    @ApiOperation(value="sSetAndTime", notes ="sSetAndTime")
+    public long sSetAndTime(String key, String values, long time) {
+        return redisUtils.sSetAndTime(key, time, values);
+    }
+
+    /**
+     * 获取set缓存的长度
+     * @param key 键
+     * @return
+     */
+    @GetMapping(value = "sGetSetSize")
+    @ApiOperation(value="sGetSetSize", notes ="sGetSetSize")
+    public long sGetSetSize(String key) {
+        return redisUtils.sGetSetSize(key);
+    }
+
+    /**
+     * 移除值为value的
+     * @param key 键
+     * @param values 值 可以是多个
+     * @return 移除的个数
+     */
+    @GetMapping(value = "setRemove")
+    @ApiOperation(value="setRemove", notes ="setRemove")
+    public long setRemove(String key, String values) {
+        return redisUtils.setRemove(key, values);
+    }
+
+
+    // ===============================list=================================
+    /**
+     * 获取list缓存的内容
+     * @param key 键
+     * @param start 开始
+     * @param end 结束 0 到 -1代表所有值
+     * @return
+     */
+    @GetMapping(value = "lGet")
+    @ApiOperation(value="lGet", notes ="lGet")
+    public List<Object> lGet(String key, long start, long end) {
+        return redisUtils.lGet(key, start, end);
+    }
+
+    /**
+     * 将list放入缓存
+     * @param key 键
+     * @param value 值
+     * @return
+     */
+    @GetMapping(value = "lSet")
+    @ApiOperation(value="lSet", notes ="lSet")
+    public boolean lSet(String key, String value) {
+        return redisUtils.lSet(key, value);
+    }
+
+    /**
+     * 将list放入缓存
+     * @param key 键
+     * @param value 值
+     * @param time 时间(秒)
+     * @return
+     */
+    @GetMapping(value = "lSetByExpire")
+    @ApiOperation(value="lSetByExpire", notes ="lSetByExpire")
+    public boolean lSetByExpire(String key, Object value, long time) {
+        return redisUtils.lSet(key, value, time);
+    }
+
+    /**
+     * 将list放入缓存
+     * @param key 键
+     * @param value 值
+     * @return
+     */
+    @GetMapping(value = "lSetByList")
+    @ApiOperation(value="lSetByList", notes ="lSetByList")
+    public boolean lSetByList(String key, List<Object> value) {
+        return redisUtils.lSet(key, value);
+    }
+
+    /**
+     * 将list放入缓存
+     * @param key 键
+     * @param value 值
+     * @return
+     */
+    @GetMapping(value = "lSetByListAndExpire")
+    @ApiOperation(value="lSetByListAndExpire", notes ="lSetByListAndExpire")
+    public boolean lSetByListAndExpire(String key, List<Object> value, long time) {
+        return redisUtils.lSet(key, value, time);
+    }
+
+    /**
+     * 通过索引 获取list中的值
+     * @param key 键
+     * @param index 索引 index>=0时， 0 表头，1 第二个元素，依次类推；index<0时，-1，表尾，-2倒数第二个元素，依次类推
+     * @return
+     */
+    @GetMapping(value = "lGetIndex")
+    @ApiOperation(value="lGetIndex", notes ="lGetIndex")
+    public Object lGetIndex(String key, long index) {
+        return redisUtils.lGetIndex(key, index);
+    }
+
+    /**
+     * 获取list缓存的长度
+     * @param key 键
+     * @return
+     */
+    @GetMapping(value = "lGetListSize")
+    @ApiOperation(value="lGetListSize", notes ="lGetListSize")
+    public long lGetListSize(String key) {
+        return redisUtils.lGetListSize(key);
+    }
+
+    /**
+     * 根据索引修改list中的某条数据
+     * @param key 键
+     * @param index 索引
+     * @param value 值
+     * @return
+     */
+    @GetMapping(value = "lUpdateIndex")
+    @ApiOperation(value="lUpdateIndex", notes ="lUpdateIndex")
+    public boolean lUpdateIndex(String key, long index, String value) {
+        return redisUtils.lUpdateIndex(key, index, value);
+    }
+
+    /**
+     * 移除N个值为value
+     * @param key 键
+     * @param count 移除多少个
+     * @param value 值
+     * @return 移除的个数
+     */
+    @GetMapping(value = "lRemove")
+    @ApiOperation(value="lRemove", notes ="lRemove")
+    public long lRemove(String key, long count, String value) {
+        return redisUtils.lRemove(key, count, value);
+    }
+
+    //----------------------zset------------------------
+
+
+    /**
+     * 向zset中插入值
+     * @param key
+     * @param value
+     * @param score
+     * @return
+     */
+    @GetMapping(value = "zAdd")
+    @ApiOperation(value="zAdd", notes ="zAdd")
+    public boolean zAdd(String key, String value, double score) {
+        return redisUtils.zAdd(key, value, score);
+    }
+
+    /**
+     * 从zset中获取值
+     * @param key
+     * @param start
+     * @param end
+     * @return
+     */
+    @GetMapping(value = "zRangeWithScores")
+    @ApiOperation(value="zRangeWithScores", notes ="zRangeWithScores")
+    public Set<ZSetOperations.TypedTuple> zRangeWithScores(String key, long start, long end) {
+        return redisUtils.zRangeWithScores(key, start, end);
+    }
+
+    /**
+     * 从zset中删除值
+     * @param key
+     * @param objects
+     * @return
+     */
+    @GetMapping(value = "zRemove")
+    @ApiOperation(value="zRemove", notes ="zRemove")
+    public Long zRemove(String key, String objects) {
+        return redisUtils.zRemove(key, objects);
+    }
 }

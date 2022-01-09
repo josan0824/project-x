@@ -535,9 +535,8 @@ public class RedisUtils {
         return false;
     }
 
-    public Set<ZSetOperations.TypedTuple> zRangeWithScores(String key, long l, long l1) {
-        try {
-            Set<ZSetOperations.TypedTuple> set = redisTemplate.opsForZSet().rangeWithScores(key, l, l1);
+    public Set<ZSetOperations.TypedTuple> zRangeWithScores(String key, long start, long end) {
+        try {            Set<ZSetOperations.TypedTuple> set = redisTemplate.opsForZSet().rangeWithScores(key, start, end);
             return set;
         } catch (Exception e) {
             e.printStackTrace();
@@ -545,7 +544,7 @@ public class RedisUtils {
         return null;
     }
 
-    public Long zRemove(String key, Object... objects) {
+    public Long zRemove(String key, String objects) {
         try {
             Long remove = redisTemplate.opsForZSet().remove(key, objects);
             return remove;
