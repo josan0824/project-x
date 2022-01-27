@@ -1,5 +1,6 @@
 package com.yc.redis.utils;
 
+import org.apache.commons.lang.StringUtils;
 import org.redisson.api.RBlockingDeque;
 import org.redisson.api.RDelayedQueue;
 import org.redisson.api.RedissonClient;
@@ -10,6 +11,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
 import javax.annotation.Resource;
+import java.time.Duration;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -600,6 +602,53 @@ public class RedisUtils {
             LogHelper.writeErrLog(this.getClass().getSimpleName(), "getDelayQueue", e);
         }
         return null;
+    }
+
+    /***************************************分布式锁******************************************************/
+
+    /**
+     * 获得分布式锁
+     * @param lockKey 锁的key,一般为竞争的资源
+     * @param lockVal 锁的value,一般为唯一id
+     * @param duration 超时时长，避免忘记释放锁造成程序一直不能被执行
+     * @return
+     */
+    public boolean addLock(String lockKey, String lockVal, long duration) {
+        if (StringUtils.isEmpty(lockKey) || StringUtils.isEmpty(lockVal)) {
+            throw new IllegalArgumentException("锁的key-value不能为空");
+        }
+        //setIfAbsent--如果key不存在则set， 并设置超时时间（防止死锁），成功set返回true,否则返回false
+        if (redisTemplate.opsForValue().setIfAbsent(lockKey, lockVal, Duration.ofSeconds(duration))) {
+            //设置值成功，也就是加锁
+            return true;
+        }
+        //如果锁已经存在，获取redis里存储的值，比较存储的值是否一致，来判断获取锁是否为当前次的程序执行
+        String cacheLockVal = (String) redisTemplate.opsForValue().get(lockKey);
+        if (StringUtils.isNotBlank(cacheLockVal) && cacheLockVal.equals(lockVal)) {
+            //证明还是当前次程序执行
+            return true;
+        }
+        return false;
+    }
+
+    /**
+     * 释放锁
+     * @param lockKey 锁的key,一般为竞争的资源
+     * @param lockValue 锁的value,一般为唯一id
+     */
+    public void unlock(String lockKey, String lockValue) {
+        try {
+            //获取redis里存储的lockValue
+            String cacheLockVal = (String) redisTemplate.opsForValue().get(lockKey);
+            //判断当前需要释放锁的lockValue是否是获取到所的lockValue
+            if (StringUtils.isNotBlank(cacheLockVal) && cacheLockVal.equals(lockValue)) {
+                //是当前程序加的锁就直接释放锁
+                redisTemplate.opsForValue().getOperations().delete(lockKey);
+            }
+        } catch (Exception e) {
+            LogHelper.writeInfoLog(this.getClass().getSimpleName(), "unlock", e);
+            e.printStackTrace();
+        }
     }
 
 }
