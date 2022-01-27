@@ -1,0 +1,10 @@
+spring:
+  application :
+    name : yc-redis
+  cloud:
+    nacos:
+      config:
+        server-addr: ${NACOS_CONFIG_ADDR}
+        file-extension: yml
+      discovery:
+        server-addr: ${NACOS_CONFIG_ADDR}

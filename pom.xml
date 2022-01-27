@@ -22,5 +22,6 @@
         <module>springboot</module>
         <module>kafkaproducer</module>
         <module>kafkaconsumer</module>
+        <module>redisutils</module>
     </modules>
 </project>
