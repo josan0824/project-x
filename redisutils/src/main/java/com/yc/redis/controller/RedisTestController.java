@@ -15,7 +15,7 @@ import java.util.Set;
 
 @RestController
 @RequestMapping("redis")
-@Api(tags = "redis")
+@Api(tags = "redis基本操作")
 public class RedisTestController {
 
     @Autowired

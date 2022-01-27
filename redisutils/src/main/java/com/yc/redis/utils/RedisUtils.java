@@ -1,5 +1,9 @@
 package com.yc.redis.utils;
 
+import org.redisson.api.RBlockingDeque;
+import org.redisson.api.RDelayedQueue;
+import org.redisson.api.RedissonClient;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations;
 import org.springframework.stereotype.Component;
@@ -21,6 +25,9 @@ public class RedisUtils {
 
     @Resource
     private RedisTemplate redisTemplate;
+
+    @Autowired
+    private RedissonClient redissonClient;
 
     /**
      * 指定缓存失效时间
@@ -553,4 +560,46 @@ public class RedisUtils {
         }
         return null;
     }
+
+    /****************************延时队列**************************************/
+
+    /**
+     * 添加到延时队列
+     * @param value 队列值
+     * @param delay 延时时间
+     * @param timeUnit 时间单位
+     * @param queueCode 队列键
+     * @param <T>
+     */
+    public <T> void addDelayQueue(T value, long delay, TimeUnit timeUnit, String queueCode) {
+        try {
+            RBlockingDeque blockingDeque = redissonClient.getBlockingDeque(queueCode);
+            RDelayedQueue delayedQueue = redissonClient.getDelayedQueue(blockingDeque);
+            delayedQueue.offer(value, delay, timeUnit);
+        } catch (Exception e) {
+            LogHelper.writeErrLog(this.getClass().getSimpleName(), "addDelayQueue", e);
+        }
+    }
+
+    /**
+     * 获取延迟队列
+     * @param queueCode 队列键
+     * @param <T>
+     * @return
+     * @throws InterruptedException
+     */
+    public <T> T getDelayQueue(String queueCode) {
+        try {
+            RBlockingDeque<Map> blockingDeque = redissonClient.getBlockingDeque(queueCode);
+            if (blockingDeque.size() > 0) {
+                T value = (T) blockingDeque.take();
+                return value;
+            }
+            return null;
+        } catch (InterruptedException e) {
+            LogHelper.writeErrLog(this.getClass().getSimpleName(), "getDelayQueue", e);
+        }
+        return null;
+    }
+
 }
