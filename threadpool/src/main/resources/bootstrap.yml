@@ -1,0 +1,7 @@
+spring:
+  application :
+    name : yc-threadpool
+  cloud:
+    nacos:
+      discovery:
+        server-addr: ${NACOS_CONFIG_ADDR}

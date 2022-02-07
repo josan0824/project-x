@@ -23,5 +23,6 @@
         <module>kafkaproducer</module>
         <module>kafkaconsumer</module>
         <module>redisutils</module>
+        <module>threadpool</module>
     </modules>
 </project>
