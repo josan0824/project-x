@@ -275,6 +275,8 @@ public class RedisTestController {
 
     /**
      * 移除值为value的
+     * 如果用于删除String类型的值，会报：
+     * io.lettuce.core.RedisCommandExecutionException: WRONGTYPE Operation against a key holding the wrong kind of value
      * @param key 键
      * @param values 值 可以是多个
      * @return 移除的个数

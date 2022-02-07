@@ -27,8 +27,14 @@ public class TestController {
     @ApiModelProperty("发送消息")
     @GetMapping("sendMsg")
     public String sendMsg() {
-        for (int i = 0; i< 100;i++) {
-            kafkaSender.send("test", "" + i);
+        for (int i = 0; i < 100; i++) {
+            int finalI = i;
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    kafkaSender.send("test2", "sendMsg:" + finalI);
+                }
+            }).start();
         }
         return "ok";
     }
