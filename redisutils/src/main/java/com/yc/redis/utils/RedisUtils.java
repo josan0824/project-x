@@ -32,6 +32,21 @@ public class RedisUtils {
     private RedissonClient redissonClient;
 
     /**
+     * 通过规则获取到redis的key
+     * @param pattern
+     * @return
+     */
+    public Set<String> getRedisKeyByPattern(String pattern) {
+        try {
+            return redisTemplate.keys(pattern);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+
+    /**
      * 指定缓存失效时间
      * @param key 键
      * @param time 时间(秒)

@@ -1,5 +1,6 @@
 package com.yc.redis.controller;
 
+import com.alibaba.fastjson.JSONObject;
 import com.yc.redis.model.dto.RedisMapObj;
 import com.yc.redis.utils.RedisUtils;
 import io.swagger.annotations.Api;
@@ -20,6 +21,31 @@ public class RedisTestController {
 
     @Autowired
     private RedisUtils redisUtils;
+
+    //-----------------key相关的操作--------------------
+    @GetMapping(value = "getRedisKeyByPattern")
+    @ApiOperation(value="getRedisKeyByPattern", notes ="得到redis的key")
+    public Set<String> getRedisKeyByPattern(String pattern) {
+        return redisUtils.getRedisKeyByPattern(pattern);
+    }
+
+    @GetMapping(value = "deleteByPattern")
+    @ApiOperation(value="deleteByPattern", notes ="通过模式批量删除")
+    public String deleteByPattern(String pattern) {
+        Set<String> redisKeySet = redisUtils.getRedisKeyByPattern(pattern);
+        if (redisKeySet != null) {
+            for (String s : redisKeySet) {
+                redisUtils.del(s);
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            return "处理了" + redisKeySet.size() +"个key,如下：" + JSONObject.toJSONString(redisKeySet);
+        }
+        return "fail 没有需要处理的key";
+    }
 
     //-------------------String------------------------
     @GetMapping(value = "setString")
