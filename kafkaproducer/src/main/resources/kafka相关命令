@@ -13,7 +13,7 @@ kafka-topics.bat --create --bootstrap-server localhost:9092 --replication-factor
 
 可以通过下面的指令查看topic：
 bin/kafka-topics.sh --list --bootstrap-server localhost:9092
-test
+
 
 增加分区
 bin/kafka-topics.sh --alter --partitions 3  --topic gbase8a --bootstrap-server localhost:9092

@@ -26,13 +26,13 @@ public class TestController {
     @Log
     @ApiModelProperty("发送消息")
     @GetMapping("sendMsg")
-    public String sendMsg() {
-        for (int i = 0; i < 100; i++) {
+    public String sendMsg(int number) {
+        for (int i = 0; i < number; i++) {
             int finalI = i;
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    kafkaSender.send("test2", "sendMsg:" + finalI);
+                    kafkaSender.send("batchTopic", "batch:" + finalI);
                 }
             }).start();
         }
