@@ -1,0 +1,7 @@
+spring:
+  application :
+    name : yc-server-consumer
+  cloud:
+    nacos:
+      discovery:
+        server-addr: ${NACOS_CONFIG_ADDR}

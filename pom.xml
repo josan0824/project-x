@@ -24,5 +24,7 @@
         <module>kafkaconsumer</module>
         <module>redisutils</module>
         <module>threadpool</module>
+        <module>server-consumer</module>
+        <module>server-provider</module>
     </modules>
 </project>

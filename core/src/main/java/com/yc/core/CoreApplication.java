@@ -24,10 +24,12 @@ public class CoreApplication {
 
         //获取配置
         String serverAddr = "127.0.0.1:8848";
-        String dataId = "hydy-web.yml";
+        String dataId = "biz-common.yml";
         String groupId = "DEFAULT_GROUP";
+        String namespace = "e7cd404b-f635-4eb9-8412-0ea3d01e6b21";
         Properties persistentProperties = new Properties();
         persistentProperties.put("serverAddr", serverAddr);
+        persistentProperties.put("namespace", namespace);
         ConfigService configService = NacosFactory.createConfigService(persistentProperties);
         String config = configService.getConfig(dataId, groupId, 5000);
         LogHelper.writeInfoLog(CLASS_NAME, "main", "config:" + config);

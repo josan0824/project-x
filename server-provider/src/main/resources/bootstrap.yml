@@ -1,0 +1,9 @@
+server:
+  port: 8088
+spring:
+  application :
+    name : yc-server-provider
+  cloud:
+    nacos:
+      discovery:
+        server-addr: ${NACOS_CONFIG_ADDR}
