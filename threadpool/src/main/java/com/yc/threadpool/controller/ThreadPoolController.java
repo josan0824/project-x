@@ -1,13 +1,20 @@
 package com.yc.threadpool.controller;
 
+import com.yc.threadpool.bean.Student;
 import com.yc.threadpool.config.ThreadPoolConfig;
 import com.yc.threadpool.utils.LogHelper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.SneakyThrows;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 
 @RestController
 @RequestMapping("threadpool")
@@ -81,4 +88,31 @@ public class ThreadPoolController {
                         "queueSize:" + queueSize);
         return "ok";
     }
+
+    @GetMapping(value = "testBean")
+    @ApiOperation(value="testBean", notes ="处理bean")
+    public String testBean() {
+        Student student = new Student();
+        System.out.println("student1:" + student);
+        student.name = "zhangsan";
+
+        Future<?> future = testThreadPool.submit(new Runnable() {
+            @SneakyThrows
+            @Override
+            public void run() {
+                student.name = "李四";
+                System.out.println("student2:" + student);
+                Thread.sleep(3000);
+            }
+        });
+        try {
+            future.get();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+        return new Date() + ":" + student.name;
+    }
+
 }

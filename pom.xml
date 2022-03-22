@@ -26,5 +26,6 @@
         <module>threadpool</module>
         <module>server-consumer</module>
         <module>server-provider</module>
+        <module>algorithm</module>
     </modules>
 </project>
