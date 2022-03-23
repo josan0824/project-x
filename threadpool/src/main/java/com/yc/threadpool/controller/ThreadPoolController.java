@@ -10,9 +10,7 @@ import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.Resource;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
@@ -95,18 +93,25 @@ public class ThreadPoolController {
         Student student = new Student();
         System.out.println("student1:" + student);
         student.name = "zhangsan";
+        List<Future> futureList = new ArrayList();
+        for(int i = 0; i < 10; i++) {
+            Future<?> future = testThreadPool.submit(new Runnable() {
+                @SneakyThrows
+                @Override
+                public void run() {
+                    student.name = "李四";
+                    System.out.println("student2:" + student);
+                    Thread.sleep(3000);
+                }
+            });
+            futureList.add(future);
+        }
 
-        Future<?> future = testThreadPool.submit(new Runnable() {
-            @SneakyThrows
-            @Override
-            public void run() {
-                student.name = "李四";
-                System.out.println("student2:" + student);
-                Thread.sleep(3000);
-            }
-        });
         try {
-            future.get();
+            for (int i =0; i< futureList.size();i++) {
+                futureList.get(i).get();
+            }
+
         } catch (InterruptedException e) {
             e.printStackTrace();
         } catch (ExecutionException e) {
