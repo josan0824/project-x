@@ -8,25 +8,21 @@ public class RemoveElement_27 {
         System.out.println(removeElement(arr, 3));
     }
 
-    public static int removeElement(int[] nums, int key) {
-        int k = 0; //k表示key个数
-        //把元素移动到前面
+    public static int removeElement(int[] nums, int val) {
+        int[] result = new int[nums.length];
+        int k = 0; //k表示非key个数
         for (int i = 0; i < nums.length; i++) {
-            if (nums[i] == key) {
-                //如果当前key==num[i]
+            if (nums[i] != val) {
+                result[k] = nums[i];
                 k++;
-            } else {
-                nums[i - k] = nums[i];
             }
         }
-
-        int[] result = new int[k];
+        nums = new int[k];
         for (int i = 0; i < k; i++) {
-            result[i] = nums[i];
+            nums[i] = result[i];
         }
-
-        System.out.println(Arrays.toString(result));
-        return k;
+        System.out.println(Arrays.toString(nums));
+        return k ;
     }
 
 }
