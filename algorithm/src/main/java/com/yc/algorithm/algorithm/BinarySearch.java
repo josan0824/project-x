@@ -14,9 +14,41 @@ public class BinarySearch {
     key : 3
     return the index : 2*/
 
+    public static void main(String[] args) {
+        int[] arr = new int[10];
+        for (int i = 0; i < 10; i++) {
+            arr[i] = i;
+        }
+        for (int i = 0; i < 10; i++) {
+            System.out.println("i:" + i +  ",index:" + binarySearch(arr, i));
+        }
+    }
 
-    public int binarySearch(String[] arg, String key) {
-        return 0;
+    /**
+     * 二分查找
+     * @param args
+     * @param key
+     * @return
+     */
+    public static int binarySearch(int[] args, int key) {
+        //left表示数组的左边，right表示右边 [left, right]
+        int left = 0;
+        int right = args.length - 1;
+        int mid = left + (right - left) / 2;    //避免整型溢出
+
+        //如果left <= right了，[left, right]这样的区间都有意义，则查询值
+        while (left <= right) {
+            if (args[mid] == key) { //如果中间值就是key,则直接放回mid
+                return mid;
+            } else if (key > args[mid]) {   //如果key大于中间值，则表示在(mid, right]中，则left = mid + 1
+                left = mid + 1;
+                mid = left + (right - left) / 2;
+            }else {   //如果key小于中间值，则表示在[left, mid) 中，则right = mid - 1
+                right = mid - 1;
+                mid = left + (right - left) / 2;
+            }
+        }
+        return -1;
     }
 
 }
