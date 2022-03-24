@@ -27,5 +27,6 @@
         <module>server-consumer</module>
         <module>server-provider</module>
         <module>algorithm</module>
+        <module>java-basic</module>
     </modules>
 </project>
