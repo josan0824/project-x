@@ -1,4 +1,4 @@
-package com.yc.algorithm.algorithm;
+package com.yc.algorithm.algorithm.commonly;
 
 /**
  * @author: josan_tang
