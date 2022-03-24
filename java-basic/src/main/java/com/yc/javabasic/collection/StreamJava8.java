@@ -50,8 +50,28 @@ public class StreamJava8 {
         scoreList.add(studentScore2);
         //得到list1、list2的差值，两个list为两个bean
         System.out.println(getDifferenceBeanCollection(studentList, scoreList));
+
+        List<Student> studentList2 = new ArrayList<>();
+        Student student21 = new Student();
+        student21.setId("2");
+        studentList2.add(student21);
+        Student student22 = new Student();
+        student22.setId("1");
+        studentList2.add(student22);
+        System.out.println(updateBeanList(studentList2));
     }
 
+    /**
+     * 修改list<bean>属性
+     * @param studentList
+     * @return
+     */
+    public static List<Student> updateBeanList(List<Student> studentList) {
+        studentList.forEach( student -> {
+            student.setName("新值");
+        });
+        return studentList;
+    }
 
     /**
      * 真对String, 判断list1中有，但是list2中没有的

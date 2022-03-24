@@ -11,7 +11,7 @@ import java.util.Arrays;
 public class ThreeWayFastRow {
 
     public static void main(String[] args) {
-        int[] nums = {0,1,2,1,0,1,0,2,1};
+        int[] nums = {2,1,2,1,0,1,0,2,1};
         threeWayFastRow(nums);
     }
 
@@ -29,15 +29,17 @@ public class ThreeWayFastRow {
         int tow = nums.length;    //tow表示2开始的位置，从[tow, nums.length - 1]表示2的区间，开始没有，则tow = nums.length
         int key = 1;
 
-        for (int i = 0; i < tow; i++) {
+        for (int i = 0; i < tow; ) {
             if (nums[i] == key) {
                 //等于1
+                i++;
             } else if (nums[i] < key) {
                 //小于1
                 zero ++;
                 int temp = nums[zero];
                 nums[zero] = nums[i];
                 nums[i] = temp;
+                i++;
             } else {
                 //大于1
                 if (nums[i] > 2) {
@@ -47,6 +49,7 @@ public class ThreeWayFastRow {
                 int temp = nums[tow];
                 nums[tow] = nums[i];
                 nums[i] = temp;
+
             }
         }
         System.out.println(Arrays.toString(nums));
