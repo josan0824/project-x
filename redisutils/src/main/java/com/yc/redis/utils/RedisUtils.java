@@ -593,6 +593,7 @@ public class RedisUtils {
             RBlockingDeque blockingDeque = redissonClient.getBlockingDeque(queueCode);
             RDelayedQueue delayedQueue = redissonClient.getDelayedQueue(blockingDeque);
             delayedQueue.offer(value, delay, timeUnit);
+            //delayedQueue.destroy();
         } catch (Exception e) {
             LogHelper.writeErrLog(this.getClass().getSimpleName(), "addDelayQueue", e);
         }
@@ -608,16 +609,41 @@ public class RedisUtils {
     public <T> T getDelayQueue(String queueCode) {
         try {
             RBlockingDeque<Map> blockingDeque = redissonClient.getBlockingDeque(queueCode);
-            if (blockingDeque.size() > 0) {
-                T value = (T) blockingDeque.take();
-                return value;
-            }
-            return null;
+            T value = (T) blockingDeque.take();
+            return value;
         } catch (InterruptedException e) {
             LogHelper.writeErrLog(this.getClass().getSimpleName(), "getDelayQueue", e);
         }
         return null;
     }
+    /**
+     * 获取阻塞队列
+     * @param queueCode 队列键
+     * @return
+     * @throws InterruptedException
+     */
+    public RBlockingDeque<Map> getBlockingDeque(String queueCode) {
+        try {
+            return redissonClient.getBlockingDeque(queueCode);
+        } catch (Exception e) {
+            LogHelper.writeErrLog(this.getClass().getSimpleName(), "getDelayQueue", e);
+        }
+        return null;
+    }
+    /**
+     * 获取延时队列
+     * @return
+     * @throws InterruptedException
+     */
+    public RDelayedQueue<Map> getDelayedQueue(RBlockingDeque<Map> blockingDeque) {
+        try {
+            return redissonClient.getDelayedQueue(blockingDeque);
+        } catch (Exception e) {
+            LogHelper.writeErrLog(this.getClass().getSimpleName(), "getDelayQueue", e);
+        }
+        return null;
+    }
+
 
     /***************************************分布式锁******************************************************/
 

@@ -3,6 +3,7 @@ package com.yc.redis.config;
 import com.yc.redis.utils.FastJson2JsonRedisSerializer;
 import org.redisson.Redisson;
 import org.redisson.api.RedissonClient;
+import org.redisson.codec.JsonJacksonCodec;
 import org.redisson.config.Config;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -96,12 +97,14 @@ public class RedisConfig {
         Config config = new Config();
         //测试环境不需要密码
         if (!"-1".equals(password)) {
+            config.setCodec(new JsonJacksonCodec());
             config.useSingleServer().setAddress("redis://" + host + ":" + port).setTimeout(1000)
                     .setPassword(password)
                     .setRetryAttempts(3)
                     .setRetryInterval(1000)
                     .setPingConnectionInterval(1000);
         } else {
+            config.setCodec(new JsonJacksonCodec());
             config.useSingleServer().setAddress("redis://" + host + ":" + port).setTimeout(1000)
                     .setRetryAttempts(3)
                     .setRetryInterval(1000)
