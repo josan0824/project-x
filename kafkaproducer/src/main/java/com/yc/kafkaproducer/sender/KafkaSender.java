@@ -9,6 +9,8 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.concurrent.ListenableFuture;
 import org.springframework.util.concurrent.ListenableFutureCallback;
 
+import java.util.concurrent.ExecutionException;
+
 /**
  * @author: josan_tang
  * @create_date: 2022/1/5 14:03
@@ -41,5 +43,22 @@ public class KafkaSender {
         });
     }
 
+
+    /**
+     * kafka发送接口同步
+     * @param topic
+     * @param msg
+     */
+    public void sendSynchronous(String topic, Object msg) {
+        String str = JSONObject.toJSONString(msg);
+        try {
+            SendResult future =  kafkaTemplate.send(topic, str).get();
+            LogHelper.writeInfoLog(this.getClass().getSimpleName(), "send", "发送成功");
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
+    }
 
 }
