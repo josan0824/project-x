@@ -1,4 +1,4 @@
-package com.yc.algorithm.algorithm.commonly;
+package com.yc.algorithm.algorithm.leetcode;
 
 /**
  * @author: josan_tang
