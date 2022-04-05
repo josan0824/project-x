@@ -18,8 +18,11 @@ public class IntersectionOfTowArrays2_350 {
         Map<Integer, Integer> nums1Map = new HashMap();   //用于存储nums1中元素出现的频次
         //先把nuns1中的元素放入map中
         for (int i = 0; i < nums1.length; i++) {
-            Integer curCount = nums1Map.get(nums1[i]);
-            nums1Map.put(nums1[i], curCount == null ? 1 : curCount.intValue() + 1);
+            if (nums1Map.containsKey(nums1[i])) {
+                nums1Map.put(nums1[i], nums1Map.get(nums1[i]).intValue() + 1);
+            } else {
+                nums1Map.put(nums1[i], 1);
+            }
         }
 
         //遍历nums2，如果元素存在于nums1set中，则表示元素存在两个数组中，把该元素放入结果list中,并把map中的频次减1
