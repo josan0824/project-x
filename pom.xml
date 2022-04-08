@@ -6,7 +6,7 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.2.5.RELEASE</version>
-        <relativePath/> <!-- lookup parent from repository -->
+       <!-- <relativePath/> --><!-- lookup parent from repository -->
     </parent>
     <groupId>com.yc</groupId>
     <artifactId>yc-demo</artifactId>
@@ -18,15 +18,16 @@
     <!-- 依赖 -->
     <modules>
         <module>core</module>
-        <module>spring-framework</module>
-        <module>springboot</module>
-        <module>kafkaproducer</module>
-        <module>kafkaconsumer</module>
+        <module>spring/spring-framework</module>
+        <module>spring/springboot</module>
+        <module>kafka/kafkaproducer</module>
+        <module>kafka/kafkaconsumer</module>
         <module>redisutils</module>
-        <module>threadpool</module>
-        <module>server-consumer</module>
-        <module>server-provider</module>
+        <module>java/threadpool</module>
+        <module>springcloud/server-consumer</module>
+        <module>springcloud/server-provider</module>
         <module>algorithm</module>
-        <module>java-basic</module>
+        <module>java/java-basic</module>
+        <module>mybatisDemo</module>
     </modules>
 </project>

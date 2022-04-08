@@ -6,6 +6,7 @@
         <groupId>com.yc</groupId>
         <artifactId>yc-demo</artifactId>
         <version>0.0.1-SNAPSHOT</version>
+        <relativePath>../../pom.xml</relativePath>
     </parent>
     <groupId>com.yc</groupId>
     <artifactId>spring-framework</artifactId>
