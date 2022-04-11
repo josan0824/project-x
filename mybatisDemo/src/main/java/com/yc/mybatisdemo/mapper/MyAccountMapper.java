@@ -1,5 +1,6 @@
 package com.yc.mybatisdemo.mapper;
 
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.yc.mybatisdemo.model.MyAccount;
 import java.util.List;
 import org.apache.ibatis.annotations.Param;
@@ -11,7 +12,7 @@ import org.apache.ibatis.annotations.Param;
  *@version:
  */
     
-public interface MyAccountMapper {
+public interface MyAccountMapper extends BaseMapper<MyAccount> {
     int deleteByPrimaryKey(String id);
 
     int insert(MyAccount record);
