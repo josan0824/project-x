@@ -1,6 +1,7 @@
 package com.yc.mybatisdemo.controller;
 
 import com.yc.mybatisdemo.model.MyAccount;
+import com.yc.mybatisdemo.service.AccountService;
 import com.yc.mybatisdemo.service.AccountServiceImpl;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -22,7 +23,7 @@ import javax.annotation.Resource;
 public class AccountController {
 
     @Resource
-    private AccountServiceImpl accountServiceImpl;
+    private AccountService accountServiceImpl;
 
     @GetMapping("/getByUrid")
     @ApiOperation(value = "通过用户id得到用户")
@@ -34,6 +35,12 @@ public class AccountController {
     @ApiOperation(value = "通过QueryWrapper查询数据")
     public MyAccount getByQueryWrapper(String urid) {
         return accountServiceImpl.getByLambdaQueryWrapper(urid);
+    }
+
+    @GetMapping("/getSpecificFidld")
+    @ApiOperation(value = "查询特定的字段")
+    public MyAccount getSpecificFidld(String urid) {
+        return accountServiceImpl.getSpecificFidld(urid);
     }
 
     @GetMapping("/updateByLambdaUpdateWrapper")

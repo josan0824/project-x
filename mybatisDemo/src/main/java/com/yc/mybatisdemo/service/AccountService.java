@@ -30,6 +30,13 @@ public interface AccountService extends IService<MyAccount> {
     MyAccount getByLambdaQueryWrapper(String urid);
 
     /**
+     * 通过QueryWrapper查询数据
+     * @param urid
+     * @return
+     */
+    MyAccount getSpecificFidld(String urid);
+
+    /**
      * 通过UpdateWrapper更新数据
      * @param name
      * @return

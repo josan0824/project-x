@@ -37,6 +37,15 @@ public class AccountServiceImpl extends ServiceImpl<MyAccountMapper, MyAccount> 
         return this.getOne(lambdaQueryWrapper);
     }
 
+    @Override
+    public MyAccount getSpecificFidld(String urid) {
+        LambdaQueryWrapper<MyAccount> lambdaQueryWrapper = Wrappers.lambdaQuery();
+        //使用select选择字段如果加多次，以最后一次为准
+        lambdaQueryWrapper.select(MyAccount::getAccount, MyAccount::getId);
+        lambdaQueryWrapper.eq(MyAccount::getId, urid);
+        return this.getOne(lambdaQueryWrapper);
+    }
+
     /**
      * 通过UpdateWrapper更新数据
      * @param name
