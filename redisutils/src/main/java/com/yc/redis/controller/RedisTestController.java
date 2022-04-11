@@ -58,7 +58,13 @@ public class RedisTestController {
     @GetMapping(value = "getString")
     @ApiOperation(value="getString", notes ="得到redis的值")
     public String get(String key) {
-        return (String) redisUtils.get(key);
+        //如果是int类型，需要先判断是否为空，再继续处理数据
+/*        Object intObj = redisUtils.get(key);
+        if (intObj != null) {
+            int value = (int) intObj;
+        }*/
+        String value = (String) redisUtils.get(key);
+        return value ;
     }
 
     /**
