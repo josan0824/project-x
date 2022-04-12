@@ -1,5 +1,7 @@
 package com.yc.mybatisdemo.model;
 
+import lombok.Data;
+
 import java.util.Date;
 
 /**
@@ -12,6 +14,7 @@ import java.util.Date;
 /**
     * 商家表
     */
+@Data
 public class MyAccount {
     /**
     * 商家id，主键

@@ -16,6 +16,7 @@ import javax.annotation.Resource;
  * @create_date: 2022/4/8 14:05
  * @desc:
  * @version:
+ *  https://baomidou.com/pages/10c804/#abstractwrapper
  */
 @RestController
 @RequestMapping("/test")
@@ -47,6 +48,13 @@ public class AccountController {
     @ApiOperation(value = "通过UpdateWrapper修改数据")
     public boolean updateByLambdaUpdateWrapper(String urid, String name) {
         return accountServiceImpl.updateByLambdaUpdateWrapper(urid, name);
+    }
+
+    @GetMapping("/testWrapper")
+    @ApiOperation(value = "测试各种查询条件")
+    public String testWrapper() {
+        accountServiceImpl.testWrapper();
+        return "查看打印日志";
     }
 
 }

@@ -42,4 +42,9 @@ public interface AccountService extends IService<MyAccount> {
      * @return
      */
     boolean updateByLambdaUpdateWrapper(String urid, String name);
+
+    /**
+     * 测试条件构造器
+     */
+    void testWrapper();
 }

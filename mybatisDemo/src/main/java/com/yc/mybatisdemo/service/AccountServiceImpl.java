@@ -9,12 +9,17 @@ import com.yc.mybatisdemo.model.MyAccount;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author: josan_tang
  * @create_date: 2022/4/8 15:26
  * @desc:
  * @version:
+ * 条件构造器 https://baomidou.com/pages/10c804/#abstractwrapper
+ * https://www.hxstrive.com/subject/mybatis_plus.htm?id=304
  */
 @Service
 public class AccountServiceImpl extends ServiceImpl<MyAccountMapper, MyAccount> implements AccountService{
@@ -56,5 +61,178 @@ public class AccountServiceImpl extends ServiceImpl<MyAccountMapper, MyAccount> 
         lambdaQueryWrapper.eq(MyAccount::getId, urid);
         lambdaQueryWrapper.set(MyAccount::getMerchantName, name);
         return this.update(lambdaQueryWrapper);
+    }
+
+    public void testWrapper() {
+        //AbstractWrapper
+        //说明:
+        //QueryWrapper(LambdaQueryWrapper) 和 UpdateWrapper(LambdaUpdateWrapper) 的父类
+        //用于生成 sql 的 where 条件, entity 属性也用于生成 sql 的 where 条件
+        //注意: entity 生成的 where 条件与 使用各个 api 生成的 where 条件没有任何关联行为
+
+        //1.allEq
+        //allEq(Map<R, V> params)
+        //allEq(Map<R, V> params, boolean null2IsNull)
+        //allEq(boolean condition, Map<R, V> params, boolean null2IsNull)
+        LambdaUpdateWrapper<MyAccount> lambdaQueryWrapper = Wrappers.lambdaUpdate();
+        Map<String, Object> params = new HashMap<>();
+        params.put("id", "1");
+        // todo
+        //lambdaQueryWrapper.allEq(params);
+
+        //eq  等于 =
+        // 例  eq("name", "老王")--->name = '老王'
+        LambdaUpdateWrapper<MyAccount> eqQueryWrapper = Wrappers.lambdaUpdate();
+        eqQueryWrapper.eq(MyAccount::getId, "1");
+        MyAccount eqMyAccount = this.getOne(eqQueryWrapper);
+        System.out.println("eqMyAccount:"  + eqMyAccount);
+
+        //ne 不等于 <>
+        // 例 ne("name", "老王")--->name <> '老王'
+        LambdaUpdateWrapper<MyAccount> neQueryWrapper = Wrappers.lambdaUpdate();
+        neQueryWrapper.ne(MyAccount::getId, "1");
+        List<MyAccount> neMyAccountList = this.list(neQueryWrapper);
+        System.out.println("neMyAccount:"  + neMyAccountList);
+
+        //gt  大于 >
+        //例: gt("age", 18)--->age > 18
+
+        //ge  大于等于 >=
+        //例: ge("age", 18)--->age >= 18
+
+        //lt 小于 <
+        //例: lt("age", 18)--->age < 18
+
+        //le 小于等于 <=
+        //例: le("age", 18)--->age <= 18
+
+        //between BETWEEN 值1 AND 值2
+        //例: between("age", 18, 30)--->age between 18 and 30
+
+        //notBetween NOT BETWEEN 值1 AND 值2
+        //例: notBetween("age", 18, 30)--->age not between 18 and 30
+
+        //like  LIKE '%值%'
+        //例: like("name", "王")--->name like '%王%'
+
+        //notLike NOT LIKE '%值%'
+        //例: notLike("name", "王")--->name not like '%王%'
+
+        //likeLeft LIKE '%值'
+        //例: likeLeft("name", "王")--->name like '%王'
+
+        //likeRight LIKE '值%'
+        //例: likeRight("name", "王")--->name like '王%'
+
+        //isNull  字段 IS NULL
+        //例: isNull("name")--->name is null
+
+        //isNotNull  字段 IS NOT NULL
+        //例: isNotNull("name")--->name is not null
+
+        //in  字段 IN (value.get(0), value.get(1), ...)
+        //例: in("age",{1,2,3})--->age in (1,2,3)
+
+        //notIn  字段 NOT IN (value.get(0), value.get(1), ...)
+        //例: notIn("age",{1,2,3})--->age not in (1,2,3)
+
+        //inSql  字段 IN ( sql语句 )
+        //例: inSql("age", "1,2,3,4,5,6")--->age in (1,2,3,4,5,6)
+        //例: inSql("id", "select id from table where id < 3")--->id in (select id from table where id < 3)
+
+        //notInSql  字段 NOT IN ( sql语句 )
+        //例: notInSql("age", "1,2,3,4,5,6")--->age not in (1,2,3,4,5,6)
+        //例: notInSql("id", "select id from table where id < 3")--->id not in (select id from table where id < 3)
+
+        //groupBy 分组：GROUP BY 字段, ...
+        //例: groupBy("id", "name")--->group by id,name
+
+        //orderByAsc 排序：ORDER BY 字段, ... ASC
+        //例: orderByAsc("id", "name")--->order by id ASC,name ASC
+
+        //orderByDesc 排序：ORDER BY 字段, ... DESC
+        //例: orderByDesc("id", "name")--->order by id DESC,name DESC
+
+        //todo orderBy 排序：ORDER BY 字段, ...
+        //例: orderBy(true, true, "id", "name")--->order by id ASC,name ASC
+
+        //having HAVING ( sql语句 )
+        //例: having("sum(age) > 10")--->having sum(age) > 10
+        //例: having("sum(age) > {0}", 11)--->having sum(age) > 11
+
+        //todo func func 方法(主要方便在出现if...else下调用不同方法能不断链)
+        //例: func(i -> if(true) {i.eq("id", 1)} else {i.ne("id", 1)})
+
+        //or 拼接 OR
+        //主动调用or表示紧接着下一个方法不是用and连接!(不调用or则默认为使用and连接)
+        //例: eq("id",1).or().eq("name","老王")--->id = 1 or name = '老王'
+        //OR 嵌套
+        //or(i -> i.eq("name", "李白").ne("status", "活着"))--->or (name = '李白' and status <> '活着')
+
+        //and AND 嵌套
+        //例: and(i -> i.eq("name", "李白").ne("status", "活着"))--->and (name = '李白' and status <> '活着')
+
+        //nested 正常嵌套 不带 AND 或者 OR
+        //例: nested(i -> i.eq("name", "李白").ne("status", "活着"))--->(name = '李白' and status <> '活着')
+
+        //apply 拼接 sql
+        //该方法可用于数据库函数 动态入参的params对应前面applySql内部的{index}部分.这样是不会有sql注入风险的,反之会有!
+        //例: apply("id = 1")--->id = 1
+        //例: apply("date_format(dateColumn,'%Y-%m-%d') = '2008-08-08'")--->date_format(dateColumn,'%Y-%m-%d') = '2008-08-08'")
+        //例: apply("date_format(dateColumn,'%Y-%m-%d') = {0}", "2008-08-08")--->date_format(dateColumn,'%Y-%m-%d') = '2008-08-08'")
+
+        //last  无视优化规则直接拼接到 sql 的最后
+        //注意事项:只能调用一次,多次调用以最后一次为准 有sql注入的风险,请谨慎使用
+        //例: last("limit 1")
+
+        //exists 拼接 EXISTS ( sql语句 )
+        //例: exists("select id from table where age = 1")--->exists (select id from table where age = 1)
+
+        //notExists 拼接 NOT EXISTS ( sql语句 )
+        //例: notExists("select id from table where age = 1")--->not exists (select id from table where age = 1)
+
+        //QueryWrapper
+        //说明:
+        //继承自 AbstractWrapper ,自身的内部属性 entity 也用于生成 where 条件
+        //及 LambdaQueryWrapper, 可以通过 new QueryWrapper().lambda() 方法获取
+
+        //select 设置查询字段
+        //说明:
+        //以上方法分为两类.
+        //第二类方法为:过滤查询字段(主键除外),入参不包含 class 的调用前需要wrapper内的entity属性有值! 这两类方法重复调用以最后一次为准
+        //例: select("id", "name", "age")
+        //例: select(i -> i.getProperty().startsWith("test"))
+
+        //UpdateWrapper
+        //说明:
+        //继承自 AbstractWrapper ,自身的内部属性 entity 也用于生成 where 条件
+        //及 LambdaUpdateWrapper, 可以通过 new UpdateWrapper().lambda() 方法获取!
+
+        //set SQL SET 字段
+        //例: set("name", "老李头")
+        //例: set("name", "")--->数据库字段值变为空字符串
+        //例: set("name", null)--->数据库字段值变为null
+
+        //setSql 设置 SET 部分 SQL
+        //例: setSql("name = '老李头'")
+
+        //lambda  获取 LambdaWrapper
+        //在QueryWrapper中是获取LambdaQueryWrapper
+        //在UpdateWrapper中是获取LambdaUpdateWrapper
+
+        //链式调用 lambda 式
+        // 区分:
+        // 链式调用 普通
+        //UpdateChainWrapper<T> update();
+        // 链式调用 lambda 式。注意：不支持 Kotlin
+        //LambdaUpdateChainWrapper<T> lambdaUpdate();
+
+        // 等价示例：
+        //query().eq("id", value).one();
+        //lambdaQuery().eq(Entity::getId, value).one();
+
+        // 等价示例：
+        //update().eq("id", value).remove();
+        //lambdaUpdate().eq(Entity::getId, value).remove();
     }
 }
