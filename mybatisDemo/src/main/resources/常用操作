@@ -1,0 +1,15 @@
+1. 配置日志输出（正式环境不建议）
+#mybatis-plus配置控制台打印完整带参数SQL语句
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+结果如下：
+Creating a new SqlSession
+SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@fc048b2] was not registered for synchronization because synchronization is not active
+JDBC Connection [com.alibaba.druid.proxy.jdbc.ConnectionProxyImpl@19923819] will not be managed by Spring
+==>  Preparing: SELECT id,merchant_name,account,password,created_time,updated_time,del_flag FROM my_account WHERE (del_flag = ? AND id = ? OR id = ?)
+==> Parameters: 1(Integer), 1(String), 2(String)
+<==    Columns: id, merchant_name, account, password, created_time, updated_time, del_flag
+<==        Row: 2, 测试1, 13089769084, abc1234, 2021-07-26 08:48:55, 2021-07-26 08:48:55, 1
+<==      Total: 1
+Closing non transactional SqlSession [org.apache.ibatis.session.defaults.DefaultSqlSession@fc048b2]

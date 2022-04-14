@@ -168,6 +168,26 @@ public class AccountServiceImpl extends ServiceImpl<MyAccountMapper, MyAccount> 
         //例: eq("id",1).or().eq("name","老王")--->id = 1 or name = '老王'
         //OR 嵌套
         //or(i -> i.eq("name", "李白").ne("status", "活着"))--->or (name = '李白' and status <> '活着')
+        LambdaUpdateWrapper<MyAccount> orLambdaQueryWrapper1 = Wrappers.lambdaUpdate();
+        orLambdaQueryWrapper1.eq(MyAccount::getId, "1").or().eq(MyAccount::getId, "2");
+        List<MyAccount> orAccountList1 = this.list(orLambdaQueryWrapper1);
+        System.out.println("orAccountList1:" + orAccountList1);
+
+        //相当于 ： SELECT id,merchant_name,account,password,created_time,updated_time,del_flag FROM my_account WHERE (del_flag = ? AND id = ? OR id = ?)
+        //最后的条件是（del_flag = ? AND id = ?） OR id = ?
+        LambdaUpdateWrapper<MyAccount> orLambdaQueryWrapper2 = Wrappers.lambdaUpdate();
+        orLambdaQueryWrapper2.eq(MyAccount::getDelFlag, 1);
+        orLambdaQueryWrapper2.eq(MyAccount::getId, "1").or().eq(MyAccount::getId, "2");
+        List<MyAccount> orAccountList2 = this.list(orLambdaQueryWrapper2);
+        System.out.println("orAccountList2:" + orAccountList2);
+
+        //SELECT id,merchant_name,account,password,created_time,updated_time,del_flag FROM my_account WHERE (del_flag = ? AND (id = ? OR id = ?))
+        //使用and才是我们想要的(del_flag = ? AND (id = ? OR id = ?))
+        LambdaUpdateWrapper<MyAccount> orLambdaQueryWrapper3 = Wrappers.lambdaUpdate();
+        orLambdaQueryWrapper3.eq(MyAccount::getDelFlag, 1);
+        orLambdaQueryWrapper3.and(wrapper -> wrapper.eq(MyAccount::getId, "1").or().eq(MyAccount::getId, "2"));
+        List<MyAccount> orAccountList3 = this.list(orLambdaQueryWrapper3);
+        System.out.println("orAccountList3:" + orAccountList3);
 
         //and AND 嵌套
         //例: and(i -> i.eq("name", "李白").ne("status", "活着"))--->and (name = '李白' and status <> '活着')
