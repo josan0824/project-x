@@ -1,5 +1,7 @@
 package com.yc.mybatisdemo.controller;
 
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.yc.mybatisdemo.domain.PageAccountDTO;
 import com.yc.mybatisdemo.model.MyAccount;
 import com.yc.mybatisdemo.service.AccountService;
 import com.yc.mybatisdemo.service.AccountServiceImpl;
@@ -55,6 +57,12 @@ public class AccountController {
     public String testWrapper() {
         accountServiceImpl.testWrapper();
         return "查看打印日志";
+    }
+
+    @GetMapping("/selectPage")
+    @ApiOperation(value = "分页查询用户信息")
+    public Page<MyAccount> selectPage(PageAccountDTO dto) {
+        return accountServiceImpl.selectPage(dto);
     }
 
 }

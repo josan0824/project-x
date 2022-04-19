@@ -29,4 +29,9 @@ public class MybatisPlusConfig {
         return new MySqlInjector();
     }
 
+/*    @Bean
+    public PaginationInterceptor paginationInterceptor() {
+        return new PaginationInterceptor();
+    }*/
+
 }

@@ -2,8 +2,11 @@ package com.yc.mybatisdemo.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
+import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.yc.mybatisdemo.domain.PageAccountDTO;
 import com.yc.mybatisdemo.mapper.MyAccountMapper;
 import com.yc.mybatisdemo.model.MyAccount;
 import org.springframework.stereotype.Service;
@@ -254,5 +257,22 @@ public class AccountServiceImpl extends ServiceImpl<MyAccountMapper, MyAccount> 
         // 等价示例：
         //update().eq("id", value).remove();
         //lambdaUpdate().eq(Entity::getId, value).remove();
+    }
+
+    @Override
+    public Page<MyAccount> selectPage(PageAccountDTO dto) {
+        Page<MyAccount> page = null;
+        if (dto.getPage() == null || dto.getLimit() == null) {
+            page = new Page<>(1, 10);
+        } else {
+            page = new Page<>(dto.getPage(), dto.getLimit());
+        }
+        LambdaQueryWrapper<MyAccount> myAccountLambdaQueryWrapper = Wrappers.lambdaQuery();
+        myAccountLambdaQueryWrapper.eq(MyAccount::getDelFlag, 1);
+        if (StringUtils.isNotBlank(dto.getId())) {
+            myAccountLambdaQueryWrapper.eq(MyAccount::getId, dto.getId());
+        }
+        page = this.page(page, myAccountLambdaQueryWrapper);
+        return page;
     }
 }

@@ -3,8 +3,10 @@ package com.yc.mybatisdemo.service;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.yc.mybatisdemo.domain.PageAccountDTO;
 import com.yc.mybatisdemo.mapper.MyAccountMapper;
 import com.yc.mybatisdemo.model.MyAccount;
 import org.springframework.stereotype.Service;
@@ -47,4 +49,9 @@ public interface AccountService extends IService<MyAccount> {
      * 测试条件构造器
      */
     void testWrapper();
+
+    /**
+     * 根据页面查询
+     */
+    Page<MyAccount> selectPage(PageAccountDTO dto);
 }
