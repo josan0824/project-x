@@ -1,6 +1,7 @@
 package com.yc.mybatisdemo.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.update.LambdaUpdateWrapper;
 import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
@@ -225,6 +226,12 @@ public class AccountServiceImpl extends ServiceImpl<MyAccountMapper, MyAccount> 
         //第二类方法为:过滤查询字段(主键除外),入参不包含 class 的调用前需要wrapper内的entity属性有值! 这两类方法重复调用以最后一次为准
         //例: select("id", "name", "age")
         //例: select(i -> i.getProperty().startsWith("test"))
+
+        //distinct需要使用select
+        LambdaQueryWrapper<MyAccount> distinctQueryWrapper = new QueryWrapper<MyAccount>().select("distinct merchant_name").lambda();
+        distinctQueryWrapper.eq(MyAccount::getPassword, "Abc123456");
+        int distinctAccount = this.count(distinctQueryWrapper);
+        System.out.println("distinctAccount:" + distinctAccount);
 
         //UpdateWrapper
         //说明:
