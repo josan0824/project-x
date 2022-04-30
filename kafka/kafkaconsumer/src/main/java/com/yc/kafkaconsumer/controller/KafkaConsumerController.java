@@ -229,4 +229,80 @@ public class KafkaConsumerController {
         return "ok";
     }
 
+
+    /**
+     * 重新平衡时保存offset
+     */
+    public class SaveOffsetOnRebalance implements  ConsumerRebalanceListener {
+
+        @Override
+        public void onPartitionsRevoked(Collection<TopicPartition> collection) {
+            //提交事务
+            //在处理完记录之后，将记录和偏移量插入数据库，然后在即将逝去分区所有权之前提交事务，确保成功保存了这些信息
+            //commitDBTransaction();
+        }
+
+        @Override
+        public void onPartitionsAssigned(Collection<TopicPartition> collection) {
+            for (TopicPartition partition : collection) {
+                //从特定的offset开始消费
+                //从数据库获取偏移量，在分配到新分区的时候，使用seek方法定位到那些记录
+                //kafkaConsumer.seek(partition, getOffsetFromDB(partition));
+            }
+        }
+    }
+
+    @ApiModelProperty("从特定偏移量处开始处理消息")
+    @GetMapping("handleMessageWithPosition")
+    public String handleMessageWithPosition() {
+        //创建kafkaconsumer
+        Properties kafkaProperties = new Properties();
+        kafkaProperties.put("bootstrap.servers", "127.0.0.1:9092");
+        kafkaProperties.put("group.id", "mygroup");
+        kafkaProperties.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
+        kafkaProperties.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
+        kafkaConsumer = new KafkaConsumer<String, String>(kafkaProperties);
+
+        //订阅
+        kafkaConsumer.subscribe(Collections.singletonList("mytopic"), new SaveOffsetOnRebalance());
+        kafkaConsumer.poll(0);
+
+        for(TopicPartition partition : kafkaConsumer.assignment()) {
+            //从特定的offset消费
+            //订阅主题之后，开始启动消费者，我们调用一次poll方法，让消费者加入到消费者群组里，并获取到分
+            //的分区，然后马上调用seek方法定位分区的偏移量。要记住，seek方法只更新我们正在使用的位置，在下次调用
+            //poll时就可以获得正确的消息。
+            //kafkaConsumer.seek(partition, getOffsetFromDB(partition));
+        }
+
+        int count = 1;
+        //轮询消息
+        try {
+            //死循环
+            while(true) {
+                ConsumerRecords<String, String> records = kafkaConsumer.poll(100);
+                for (ConsumerRecord<String, String> record : records) {
+                    //rocessRecord(record);
+                    //storeRecordInDB(record);
+                    //这次要更新的是数据库用于保存偏移量的表。假设更新记录的速度非常快，所以每条记录都需要更新一次数据库
+                    //但提交的速度比较慢，所以只在每个批次末尾提交一次。
+                    //storeOffsetInDB(record.topic(), record.partition(), record.offset());
+                }
+                //commitDBTransaction();
+                kafkaConsumer.commitAsync(currentOffset, null);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        } finally {
+            //同步提交
+            try {
+                kafkaConsumer.commitSync();
+            } catch (Exception e) {
+                System.out.println("commit fialed");
+            } finally {
+                kafkaConsumer.close();
+            }
+        }
+        return "ok";
+    }
 }
