@@ -54,4 +54,6 @@ public interface AccountService extends IService<MyAccount> {
      * 根据页面查询
      */
     Page<MyAccount> selectPage(PageAccountDTO dto);
+
+    void testSimpleMappper();
 }

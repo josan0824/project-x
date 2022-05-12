@@ -13,6 +13,7 @@ import com.yc.mybatisdemo.model.MyAccount;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,6 +32,7 @@ public class AccountServiceImpl extends ServiceImpl<MyAccountMapper, MyAccount> 
     @Resource
     private MyAccountMapper myAccountMapper;
 
+    @Override
     public MyAccount getAccountByUrid(String urid) {
          return myAccountMapper.selectByPrimaryKey(urid);
     }
@@ -40,6 +42,7 @@ public class AccountServiceImpl extends ServiceImpl<MyAccountMapper, MyAccount> 
      * @param urid
      * @return
      */
+    @Override
     public MyAccount getByLambdaQueryWrapper(String urid) {
         LambdaQueryWrapper<MyAccount> lambdaQueryWrapper = Wrappers.lambdaQuery();
         lambdaQueryWrapper.eq(MyAccount::getId, urid);
@@ -60,6 +63,7 @@ public class AccountServiceImpl extends ServiceImpl<MyAccountMapper, MyAccount> 
      * @param name
      * @return
      */
+    @Override
     public boolean updateByLambdaUpdateWrapper(String urid, String name) {
         LambdaUpdateWrapper<MyAccount> lambdaQueryWrapper = Wrappers.lambdaUpdate();
         lambdaQueryWrapper.eq(MyAccount::getId, urid);
@@ -67,6 +71,7 @@ public class AccountServiceImpl extends ServiceImpl<MyAccountMapper, MyAccount> 
         return this.update(lambdaQueryWrapper);
     }
 
+    @Override
     public void testWrapper() {
         //AbstractWrapper
         //说明:
@@ -281,5 +286,20 @@ public class AccountServiceImpl extends ServiceImpl<MyAccountMapper, MyAccount> 
         }
         page = this.page(page, myAccountLambdaQueryWrapper);
         return page;
+    }
+
+    @Override
+    public void testSimpleMappper() {
+
+        MyAccount myAccount = myAccountMapper.selectByPrimaryKey("1");
+        myAccount.setMerchantName(null);
+        myAccount.setUpdatedTime(new Date());
+        //为null的值不会更新
+        myAccountMapper.updateById(myAccount);
+
+        MyAccount myAccount2 = myAccountMapper.selectByPrimaryKey("2");
+        myAccount2.setMerchantName("2");
+        myAccount2.setUpdatedTime(new Date());
+        myAccountMapper.updateById(myAccount2);
     }
 }

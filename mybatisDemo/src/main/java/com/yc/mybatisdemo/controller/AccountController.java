@@ -65,4 +65,11 @@ public class AccountController {
         return accountServiceImpl.selectPage(dto);
     }
 
+    @GetMapping("/testSimpleMappper")
+    @ApiOperation(value = "测试简单的mapper")
+    public String testSimpleMappper() {
+        accountServiceImpl.testSimpleMappper();
+        return "ok";
+    }
+
 }
