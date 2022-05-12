@@ -1,18 +1,20 @@
 package com.yc.core.controller;
 
+import cn.hutool.core.collection.CollUtil;
+import com.alibaba.fastjson.JSON;
 import com.yc.core.model.bo.HiberbateTestBO;
 import com.yc.core.model.response.LeeJSONResult;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.context.properties.bind.BindResult;
+import org.springframework.util.CollectionUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @RequestMapping("/val")

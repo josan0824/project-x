@@ -3,6 +3,7 @@ package com.yc.kafkaconsumer.controller;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModelProperty;
 import org.apache.kafka.clients.consumer.*;
+import org.apache.kafka.common.PartitionInfo;
 import org.apache.kafka.common.TopicPartition;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -303,6 +304,56 @@ public class KafkaConsumerController {
                 kafkaConsumer.close();
             }
         }
+        return "ok";
+    }
+
+
+    @ApiModelProperty("分配分区")
+    @GetMapping("distributionPartition")
+    public String distributionPartition() {
+        //创建kafkaconsumer
+        Properties kafkaProperties = new Properties();
+        kafkaProperties.put("bootstrap.servers", "127.0.0.1:9092");
+        kafkaProperties.put("group.id", "mygroup");
+        kafkaProperties.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
+        kafkaProperties.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
+        kafkaConsumer = new KafkaConsumer<String, String>(kafkaProperties);
+
+        List<PartitionInfo> partitionInfos = null;
+        List<TopicPartition> partitions = new ArrayList<>();
+        //向集群请求主体可用的分区，如果只打算读取特定分区，可以跳过这一步
+        partitionInfos = kafkaConsumer.partitionsFor("topicName");
+
+        if (partitionInfos != null) {
+            for (PartitionInfo partitionInfo : partitionInfos) {
+                partitions.add(new TopicPartition(partitionInfo.topic(), partitionInfo.partition()));
+            }
+            //知道哪些分区后，调用assign
+            kafkaConsumer.assign(partitions);
+            //轮询消息
+            try {
+                //死循环
+                while(true) {
+                    ConsumerRecords<String, String> records = kafkaConsumer.poll(100);
+                    for (ConsumerRecord<String, String> record : records) {
+                       //处理消息
+                    }
+                    kafkaConsumer.commitAsync(currentOffset, null);
+                }
+            } catch (Exception e) {
+                System.out.println(e);
+            } finally {
+                //同步提交
+                try {
+                    kafkaConsumer.commitSync();
+                } catch (Exception e) {
+                    System.out.println("commit fialed");
+                } finally {
+                    kafkaConsumer.close();
+                }
+            }
+        }
+
         return "ok";
     }
 }

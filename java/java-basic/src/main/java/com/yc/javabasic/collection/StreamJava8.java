@@ -1,6 +1,5 @@
 package com.yc.javabasic.collection;
 
-import com.sun.xml.internal.ws.util.StringUtils;
 import com.yc.javabasic.bean.Student;
 import com.yc.javabasic.bean.StudentScore;
 
@@ -59,6 +58,24 @@ public class StreamJava8 {
         student22.setId("1");
         studentList2.add(student22);
         System.out.println(updateBeanList(studentList2));
+
+
+        List<String> joinList = new ArrayList<>();
+        joinList.add("josan1");
+        joinList.add("josan2");
+        joinList.add("josan3");
+
+        System.out.println("joining str:" + joining(joinList));
+    }
+
+    /**
+     * 通过$拼接List中的数据
+     * @param strList
+     * @return
+     */
+    public static String joining(List<String> strList) {
+        return String.join("$", strList);
+        //return strList.stream().collect(Collectors.joining("$"));
     }
 
     /**

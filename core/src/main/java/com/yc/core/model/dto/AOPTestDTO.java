@@ -15,4 +15,7 @@ public class AOPTestDTO extends AOPBaseDTO{
 
     @ApiModelProperty(value = "年龄")
     private int age;
+
+    @ApiModelProperty(value = "testLong")
+    private long testLong;
 }
