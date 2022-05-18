@@ -3,7 +3,6 @@ package com.yc.kafkaconsumer.controller;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModelProperty;
 import org.apache.kafka.clients.consumer.*;
-import org.apache.kafka.common.PartitionInfo;
 import org.apache.kafka.common.TopicPartition;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -356,4 +355,61 @@ public class KafkaConsumerController {
 
         return "ok";
     }
+
+
+    @ApiModelProperty("退出")
+    @GetMapping("exit")
+    public String exit() {
+        //创建kafkaconsumer
+        Properties kafkaProperties = new Properties();
+        kafkaProperties.put("bootstrap.servers", "127.0.0.1:9092");
+        kafkaProperties.put("group.id", "mygroup");
+        kafkaProperties.put("key.serializer", "org.apache.kafka.common.serialization.StringSerializer");
+        kafkaProperties.put("value.serializer", "org.apache.kafka.common.serialization.StringSerializer");
+        kafkaConsumer = new KafkaConsumer<String, String>(kafkaProperties);
+
+        //订阅
+        kafkaConsumer.subscribe(Collections.singletonList("mytopic"));
+        Thread mainThread = Thread.currentThread();
+        Runtime.getRuntime().addShutdownHook(new Thread(){
+            public void run() {
+                System.out.println("start exit...");
+                kafkaConsumer.wakeup();
+                try {
+                    mainThread.join();
+                } catch (Exception e){
+                    System.out.println("Exception exit...");
+                }
+            }
+        });
+
+        int count = 1;
+        //轮询消息
+        try {
+            //死循环
+            while(true) {
+                ConsumerRecords<String, String> records = kafkaConsumer.poll(100);
+                for (ConsumerRecord<String, String> record : records) {
+                    System.out.println("topic = " + record.topic() + ",partition = " + record.partition()
+                            + ",offset:" + record.offset() + ",key:" + record.key() + ",value:" + record.value());
+                    currentOffset.put(new TopicPartition(record.topic(), record.partition()),
+                            new OffsetAndMetadata(record.offset() + 1, "no metadata"));
+                }
+                kafkaConsumer.commitAsync(currentOffset, null);
+            }
+        } catch (Exception e) {
+            System.out.println(e);
+        } finally {
+            //同步提交
+            try {
+                kafkaConsumer.commitSync();
+            } catch (Exception e) {
+                System.out.println("commit fialed");
+            } finally {
+                kafkaConsumer.close();
+            }
+        }
+        return "ok";
+    }
+
 }
