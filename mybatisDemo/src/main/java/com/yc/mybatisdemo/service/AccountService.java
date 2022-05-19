@@ -56,4 +56,6 @@ public interface AccountService extends IService<MyAccount> {
     Page<MyAccount> selectPage(PageAccountDTO dto);
 
     void testSimpleMappper();
+
+    void insert();
 }

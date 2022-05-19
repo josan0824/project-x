@@ -13,10 +13,7 @@ import com.yc.mybatisdemo.model.MyAccount;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @author: josan_tang
@@ -289,9 +286,18 @@ public class AccountServiceImpl extends ServiceImpl<MyAccountMapper, MyAccount> 
     }
 
     @Override
+    public void insert() {
+        List<MyAccount> myAccounts = new ArrayList<>();
+        MyAccount myAccount = new MyAccount();
+        myAccount.setId("1000");
+        myAccounts.add(myAccount);
+        myAccountMapper.batchInsert(myAccounts);
+    }
+
+    @Override
     public void testSimpleMappper() {
 
-        MyAccount myAccount = myAccountMapper.selectByPrimaryKey("1");
+/*        MyAccount myAccount = myAccountMapper.selectByPrimaryKey("1");
         myAccount.setMerchantName(null);
         myAccount.setUpdatedTime(new Date());
         //为null的值不会更新
@@ -300,6 +306,12 @@ public class AccountServiceImpl extends ServiceImpl<MyAccountMapper, MyAccount> 
         MyAccount myAccount2 = myAccountMapper.selectByPrimaryKey("2");
         myAccount2.setMerchantName("2");
         myAccount2.setUpdatedTime(new Date());
-        myAccountMapper.updateById(myAccount2);
+        myAccountMapper.updateById(myAccount2);*/
+
+        MyAccount account1 = myAccountMapper.selectByPrimaryKey("3");
+        account1.setMerchantName("33");
+        LambdaUpdateWrapper<MyAccount> lambdaQueryWrapper = Wrappers.lambdaUpdate();
+        lambdaQueryWrapper.set(MyAccount::getAccount, null);
+        myAccountMapper.update(account1, lambdaQueryWrapper);
     }
 }

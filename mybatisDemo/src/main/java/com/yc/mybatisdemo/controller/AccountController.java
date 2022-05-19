@@ -72,4 +72,11 @@ public class AccountController {
         return "ok";
     }
 
+    @GetMapping("/insert")
+    @ApiOperation(value = "insert")
+    public String insert() {
+        accountServiceImpl.insert();
+        return "ok";
+    }
+
 }

@@ -4,6 +4,7 @@ import com.yc.kafkaproducer.annotation.Log;
 import com.yc.kafkaproducer.sender.KafkaSender;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModelProperty;
+import io.swagger.annotations.ApiOperation;
 import org.apache.kafka.clients.producer.Callback;
 import org.apache.kafka.clients.producer.KafkaProducer;
 import org.apache.kafka.clients.producer.ProducerRecord;
@@ -29,8 +30,10 @@ public class KafkaProducerController {
     @Autowired
     private KafkaSender kafkaSender;
 
+    String topic = "test3";
+
     @Log
-    @ApiModelProperty("发送消息(简单地)")
+    @ApiOperation("发送消息(简单地)")
     @GetMapping("sendMsgSimple")
     public String sendMsg(int number) {
         Properties kafkaProperties = new Properties();
@@ -40,7 +43,7 @@ public class KafkaProducerController {
         KafkaProducer kafkaProducer = new KafkaProducer<String, String>(kafkaProperties);
 
         //不关心返回发送消息
-        ProducerRecord<String, String> record = new ProducerRecord<>("mytopic","name","josan");
+        ProducerRecord<String, String> record = new ProducerRecord<>(topic,"name","josan");
         try {
             kafkaProducer.send(record);
         } catch (Exception e) {
@@ -50,7 +53,7 @@ public class KafkaProducerController {
     }
 
     @Log
-    @ApiModelProperty("发送消息(同步发送)")
+    @ApiOperation("发送消息(同步发送)")
     @GetMapping("sendMsgSync")
     public String sendMsgSync() {
         Properties kafkaProperties = new Properties();
@@ -60,7 +63,7 @@ public class KafkaProducerController {
         KafkaProducer kafkaProducer = new KafkaProducer<String, String>(kafkaProperties);
 
         //同步发送消息
-        ProducerRecord<String, String> record = new ProducerRecord<>("mytopic","name","josan");
+        ProducerRecord<String, String> record = new ProducerRecord<>(topic,"name","josan");
         try {
            RecordMetadata recordResult = (RecordMetadata) kafkaProducer.send(record).get();
            System.out.println("recordResult:" + recordResult);
@@ -71,7 +74,7 @@ public class KafkaProducerController {
     }
 
     @Log
-    @ApiModelProperty("发送消息(异步发送)")
+    @ApiOperation("发送消息(异步发送)")
     @GetMapping("sendMsgAsync")
     public String sendMsgAsync() {
         Properties kafkaProperties = new Properties();
@@ -81,7 +84,7 @@ public class KafkaProducerController {
         KafkaProducer kafkaProducer = new KafkaProducer<String, String>(kafkaProperties);
 
         //异步发送消息
-        ProducerRecord<String, String> record = new ProducerRecord<>("mytopic","name","josan");
+        ProducerRecord<String, String> record = new ProducerRecord<>(topic,"name","josan");
         try {
            kafkaProducer.send(record, new Callback() {
                 @Override
