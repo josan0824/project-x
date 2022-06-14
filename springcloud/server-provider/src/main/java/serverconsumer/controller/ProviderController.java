@@ -10,6 +10,11 @@ public class ProviderController {
 
     @RequestMapping(value = "test", method = RequestMethod.GET)
     public String test() {
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         return "provider";
     }
 }

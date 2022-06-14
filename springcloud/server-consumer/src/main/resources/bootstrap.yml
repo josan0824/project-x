@@ -3,5 +3,8 @@ spring:
     name : yc-server-consumer
   cloud:
     nacos:
+      config:
+        server-addr: ${NACOS_CONFIG_ADDR}
+        file-extension: yml
       discovery:
         server-addr: ${NACOS_CONFIG_ADDR}

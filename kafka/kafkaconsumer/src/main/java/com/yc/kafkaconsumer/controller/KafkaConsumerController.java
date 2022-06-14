@@ -3,6 +3,7 @@ package com.yc.kafkaconsumer.controller;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModelProperty;
 import org.apache.kafka.clients.consumer.*;
+import org.apache.kafka.common.PartitionInfo;
 import org.apache.kafka.common.TopicPartition;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
