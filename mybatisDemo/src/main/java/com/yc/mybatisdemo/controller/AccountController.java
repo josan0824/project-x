@@ -79,4 +79,11 @@ public class AccountController {
         return "ok";
     }
 
+
+    @GetMapping("/distinct")
+    @ApiOperation(value = "distinct")
+    public String distinct() {
+        accountServiceImpl.distinct();
+        return "ok";
+    }
 }

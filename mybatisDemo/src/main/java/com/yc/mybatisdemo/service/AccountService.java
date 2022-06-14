@@ -58,4 +58,6 @@ public interface AccountService extends IService<MyAccount> {
     void testSimpleMappper();
 
     void insert();
+
+    void distinct();
 }

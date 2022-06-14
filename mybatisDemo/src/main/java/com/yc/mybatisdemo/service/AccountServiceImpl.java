@@ -314,4 +314,13 @@ public class AccountServiceImpl extends ServiceImpl<MyAccountMapper, MyAccount> 
         lambdaQueryWrapper.set(MyAccount::getAccount, null);
         myAccountMapper.update(account1, lambdaQueryWrapper);
     }
+
+    @Override
+    public void distinct() {
+
+        QueryWrapper<MyAccount> lambdaQueryWrapper = new QueryWrapper();
+        lambdaQueryWrapper.select("distinct merchant_name");
+        List<MyAccount> myAccountList = myAccountMapper.selectList(lambdaQueryWrapper);
+    }
+
 }
