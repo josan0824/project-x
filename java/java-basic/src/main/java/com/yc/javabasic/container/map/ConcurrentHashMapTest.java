@@ -8,5 +8,7 @@ public class ConcurrentHashMapTest {
         //1.put操作
         concurrentHashMap.put("name", "josan");
 
+        concurrentHashMap.get("name");
+
     }
 }
