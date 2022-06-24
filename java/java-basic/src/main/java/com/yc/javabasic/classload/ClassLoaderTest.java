@@ -1,11 +1,14 @@
+/*
 package com.yc.javabasic.classload;
 
 import java.io.IOException;
 import java.io.InputStream;
 
+*/
 /**
  * 类加载器与instanceof关键字演示
- */
+ *//*
+
 
 public class ClassLoaderTest {
     public static void main(String[] args) throws Exception {
@@ -57,4 +60,4 @@ public class ClassLoaderTest {
         }
         return c;
     }
-}
+}*/
