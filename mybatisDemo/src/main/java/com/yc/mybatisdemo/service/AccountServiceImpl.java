@@ -26,12 +26,9 @@ import java.util.*;
 @Service
 public class AccountServiceImpl extends ServiceImpl<MyAccountMapper, MyAccount> implements AccountService{
 
-    @Resource
-    private MyAccountMapper myAccountMapper;
-
     @Override
     public MyAccount getAccountByUrid(String urid) {
-         return myAccountMapper.selectByPrimaryKey(urid);
+         return this.getById(urid);
     }
 
     /**
@@ -291,7 +288,7 @@ public class AccountServiceImpl extends ServiceImpl<MyAccountMapper, MyAccount> 
         MyAccount myAccount = new MyAccount();
         myAccount.setId("1000");
         myAccounts.add(myAccount);
-        myAccountMapper.batchInsert(myAccounts);
+        this.saveBatch(myAccounts);
     }
 
     @Override
@@ -308,19 +305,18 @@ public class AccountServiceImpl extends ServiceImpl<MyAccountMapper, MyAccount> 
         myAccount2.setUpdatedTime(new Date());
         myAccountMapper.updateById(myAccount2);*/
 
-        MyAccount account1 = myAccountMapper.selectByPrimaryKey("3");
+        MyAccount account1 = this.getById("3");
         account1.setMerchantName("33");
         LambdaUpdateWrapper<MyAccount> lambdaQueryWrapper = Wrappers.lambdaUpdate();
         lambdaQueryWrapper.set(MyAccount::getAccount, null);
-        myAccountMapper.update(account1, lambdaQueryWrapper);
+        this.update(account1, lambdaQueryWrapper);
     }
 
     @Override
     public void distinct() {
-
         QueryWrapper<MyAccount> lambdaQueryWrapper = new QueryWrapper();
         lambdaQueryWrapper.select("distinct merchant_name");
-        List<MyAccount> myAccountList = myAccountMapper.selectList(lambdaQueryWrapper);
+        List<MyAccount> myAccountList = this.list(lambdaQueryWrapper);
     }
 
 }
