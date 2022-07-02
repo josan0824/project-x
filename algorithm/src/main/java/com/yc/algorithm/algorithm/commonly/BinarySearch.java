@@ -20,7 +20,7 @@ public class BinarySearch {
             arr[i] = i;
         }
         for (int i = 0; i < 10; i++) {
-            System.out.println("i:" + i +  ",index:" + binarySearch(arr, i));
+            System.out.println("i:" + i +  ",index:" + binarySearchNew(arr, i));
         }
     }
 
@@ -44,6 +44,33 @@ public class BinarySearch {
                 left = mid + 1;
                 mid = left + (right - left) / 2;
             }else {   //如果key小于中间值，则表示在[left, mid) 中，则right = mid - 1
+                right = mid - 1;
+                mid = left + (right - left) / 2;
+            }
+        }
+        return -1;
+    }
+
+    /**
+     * 通过二分查找key
+     * @param arr 查找数据的数组
+     * @param key 需要查找的key
+     * @return key 所在的位置；如果未查找到，返回-1
+     */
+    public static int binarySearchNew(int[] arr, int key) {
+        //left左边界，right表示数组的右边，[left, right]
+        int left = 0;
+        int right = arr.length - 1;
+        //防止整形溢出
+        int mid = left + (right - left) / 2;
+        while (left <= right) {
+            if (arr[mid] == key) {
+                //找到数据，直接返回
+                return mid;
+            } else if (arr[mid] < key) {
+                left = mid + 1;
+                mid = left + (right - left) / 2;
+            } else {
                 right = mid - 1;
                 mid = left + (right - left) / 2;
             }
