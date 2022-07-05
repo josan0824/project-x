@@ -1,6 +1,7 @@
 package com.yc.javabasic.collection;
 
 import com.yc.javabasic.bean.Student;
+import com.yc.javabasic.bean.Student2;
 import com.yc.javabasic.bean.StudentScore;
 
 import java.util.ArrayList;
@@ -24,6 +25,9 @@ public class StreamJava8 {
         studentList.add(student2);
         //把属性筛选出来形成List<String>
         System.out.println(filterBeanAttr(studentList));
+
+        //把List<Student>转成List<Student2>
+        System.out.println(listBeanToOtherListBean(studentList));
 
         //筛选特定条件的bean,形成List<Bean>
         System.out.println(filterBean(studentList));
@@ -130,6 +134,21 @@ public class StreamJava8 {
     public static List<String> filterBeanAttr(List<Student> studentList) {
         List<String> idList =  studentList.stream().map(Student::getId).collect(Collectors.toList());
         return idList;
+    }
+
+    /**
+     * 从List<Student>转到List<Student2>
+     * @param studentList
+     * @return
+     */
+    public static List<Student2> listBeanToOtherListBean(List<Student> studentList) {
+        List<Student2> student2List =  studentList.stream().map(student -> {
+            Student2 student2 = new Student2();
+            student2.setId(student.getId());
+            student2.setId(student.getId());
+            return student2;
+        }).collect(Collectors.toList());
+        return student2List;
     }
 
 

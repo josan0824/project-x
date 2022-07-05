@@ -264,9 +264,8 @@ public class HWTest {
      * 输入有多组测试用例，每组空格隔开两个整数
      *
      * 对于每组数据输出一行两个整数的和
-     * @param args
      */
-    public static void main(String[] args) {
+/*    public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         while (sc.hasNextLine()) {
             String orginStr = sc.nextLine();
@@ -275,6 +274,14 @@ public class HWTest {
             int b = Integer.parseInt(inputArr[1]);
             System.out.println(a + b);
         }
+    }*/
+
+
+    public static void main(String[] arr) {
+        Scanner sc = new Scanner(System.in);
+        String inputStr = sc.nextLine();
+        String[] inputArr = inputStr.split(" ");
+        System.out.println(inputArr[inputArr.length - 1].length());
     }
 
 
