@@ -37,6 +37,7 @@ public class TowSum2_1 {
     }
 
     /**
+     * 题目描述：在有序数组中找出两个数，使它们的和为 target。
      * 双指针的方式求和
      * @param numbers
      * @param target
