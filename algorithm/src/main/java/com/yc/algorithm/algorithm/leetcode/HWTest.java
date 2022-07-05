@@ -276,12 +276,26 @@ public class HWTest {
         }
     }*/
 
-
+    /**
+     * 输入描述：
+     * 第一行输入一个由字母和数字以及空格组成的字符串，第二行输入一个字符。
+     *
+     * 输出描述：
+     * 输出输入字符串中含有该字符的个数。（不区分大小写字母）
+     * @param arr
+     */
     public static void main(String[] arr) {
         Scanner sc = new Scanner(System.in);
-        String inputStr = sc.nextLine();
-        String[] inputArr = inputStr.split(" ");
-        System.out.println(inputArr[inputArr.length - 1].length());
+        String reline = sc.nextLine().toLowerCase();
+        char chatAt = sc.nextLine().toLowerCase().charAt(0);
+        char[] relineArr = reline.toCharArray();
+        int result = 0;
+        for (char c : relineArr) {
+            if (chatAt == c) {
+                result ++;
+            }
+        }
+        System.out.println(result);
     }
 
 

@@ -16,7 +16,7 @@ public class TowSum2_1 {
     public static void main(String[] args) {
         int[] numbers = {1,2,2,7,11,15};
         int target = 9;
-        System.out.println(Arrays.toString(twoSum(numbers, target)));
+        System.out.println(Arrays.toString(twoSum2(numbers, target)));
     }
 
 
@@ -33,6 +33,29 @@ public class TowSum2_1 {
             record.put(numbers[i],  i);
         }
         //没有找到则抛出错误
+        return null;
+    }
+
+    /**
+     * 双指针的方式求和
+     * @param numbers
+     * @param target
+     * @return
+     */
+    public static int[] twoSum2(int[] numbers, int target) {
+        int start = 0;
+        int end = numbers.length - 1;
+        int sum;
+        while (start < end) {
+            sum = numbers[start] + numbers[end];
+            if (sum == target) {
+                return new int[]{start, end};
+            } else if (sum > target){
+                end --;
+            } else {
+                start++;
+            }
+        }
         return null;
     }
 }
