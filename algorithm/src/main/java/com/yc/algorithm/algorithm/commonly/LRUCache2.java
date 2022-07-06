@@ -1,5 +1,6 @@
 package com.yc.algorithm.algorithm.commonly;
 
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,14 +12,6 @@ import java.util.Map;
  */
 class LRUCache2<K, V> {
 
-    public static void main(String[] args) {
-        LRUCache2 lruCache2 = new LRUCache2(3);
-        lruCache2.put(1,2);
-        lruCache2.put(2,3);
-        lruCache2.put(3,4);
-        lruCache2.put(4,5);
-
-    }
 
     /**
      * 节点数据
@@ -75,7 +68,7 @@ class LRUCache2<K, V> {
      * @param key
      * @param value
      */
-    public void put(K key, V value) {
+    public Map put(K key, V value) {
         //查询是否存在
         DLinkedNode<K, V> dLinkedNode = cache.get(key);
         if (dLinkedNode != null) {
@@ -98,6 +91,7 @@ class LRUCache2<K, V> {
             cache.put(key, newDLinkedNode);
             size++;
         }
+        return cache;
     }
 
     /**
@@ -130,4 +124,11 @@ class LRUCache2<K, V> {
         dLinkedNode.next = tail;
     }
 
+    public static void main(String[] args) {
+        LRUCache2 lruCache2 = new LRUCache2(3);
+        lruCache2.put(1,2);
+        lruCache2.put(2,3);
+        lruCache2.put(3,4);
+        lruCache2.put(4,5);
+    }
 }
