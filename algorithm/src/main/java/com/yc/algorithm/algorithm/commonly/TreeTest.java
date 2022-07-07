@@ -32,9 +32,9 @@ public class TreeTest {
         TreeNode node4 = new TreeNode(5);
         TreeNode node5 = new TreeNode(7);
         TreeNode node2 = new TreeNode(9);
-        TreeNode node3 = new TreeNode(node4, node5,4);
+        TreeNode node3 = new TreeNode(4);
         TreeNode root = new TreeNode(node2, node3, 3);
-        System.out.println(postOrderTraversal(root));
+        System.out.println(maxDepth(root));
     }
 
 
@@ -99,5 +99,21 @@ public class TreeTest {
         postorder(root.left, res);
         postorder(root.right, res);
         res.add(root.value);
+    }
+
+    /**
+     * 给定一个二叉树，找出其最大深度。
+     *
+     * 二叉树的深度为根节点到最远叶子节点的最长路径上的节点数。
+     * 说明: 叶子节点是指没有子节点的节点。
+     * @param root
+     * @return
+     */
+    public static int maxDepth(TreeNode root) {
+        if (root == null) {
+            //到叶子节点
+            return 0;
+        }
+        return Math.max(maxDepth(root.left), maxDepth(root.right)) + 1;
     }
 }
