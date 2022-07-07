@@ -29,12 +29,14 @@ public class TreeTest {
 
 
     public static void main(String[] args) {
-        TreeNode node4 = new TreeNode(5);
+        TreeNode node8 = new TreeNode(8);
+        TreeNode node9 = new TreeNode(9);
+        TreeNode node4 = new TreeNode(node8 , node9,5);
         TreeNode node5 = new TreeNode(7);
         TreeNode node2 = new TreeNode(9);
-        TreeNode node3 = new TreeNode(4);
+        TreeNode node3 = new TreeNode(node4, node5, 4);
         TreeNode root = new TreeNode(node2, node3, 3);
-        System.out.println(maxDepth(root));
+        System.out.println(isBalanced(root));
     }
 
 
@@ -115,5 +117,25 @@ public class TreeTest {
             return 0;
         }
         return Math.max(maxDepth(root.left), maxDepth(root.right)) + 1;
+    }
+
+
+    /**
+     * 110. 平衡二叉树
+     * 是否是平衡树
+     * 给定一个二叉树，判断它是否是高度平衡的二叉树。
+     *
+     * 本题中，一棵高度平衡二叉树定义为：
+     *
+     * 一个二叉树每个节点 的左右两个子树的高度差的绝对值不超过 1 。
+     * @param root
+     * @return
+     */
+    public static boolean isBalanced(TreeNode root) {
+        if (root == null) {
+            return true;
+        } else {
+            return ((Math.abs(maxDepth(root.left) - maxDepth(root.right))) <= 1) && isBalanced(root.left) && isBalanced(root.right);
+        }
     }
 }
