@@ -9,33 +9,53 @@ package com.yc.algorithm.algorithm.commonly;
 public class ReverseList {
 
     static class ListNode<V> {
+        int val;
         ListNode next;
-        V value;
 
-        public ListNode(V v) {
-            this.value = v;
+        ListNode() {
+        }
+
+        ListNode(int val) {
+            this.val = val;
+        }
+
+        ListNode(int val, ListNode next) {
+            this.val = val;
+            this.next = next;
         }
     }
 
     /**
      * 递归实现反转
+     *
      * @param head
      * @return
      */
     private static ListNode reverseList(ListNode head) {
-        if (head == null || head.next == null) {
+ /*       if (head == null || head.next == null) {
             //到达尾节点
             return head;
         }
         ListNode next = head.next;
-        ListNode newHead =  reverseList(next);
+        ListNode newHead = reverseList(next);
         next.next = head;
+        head.next = null;
+        return newHead;*/
+
+        if (head == null || head.next == null) {
+            return head;
+        }
+        ListNode next = head.next;
+        ListNode newHead = reverseList(next);
+        next.next = head;
+        //为了断开自己的下一个节点的联系，否之前的头结点还是指向了第二个节点
         head.next = null;
         return newHead;
     }
 
     /**
      * 链表反转-头插法
+     *
      * @param head
      * @return
      */
@@ -58,11 +78,10 @@ public class ReverseList {
         n1.next = n2;
         ListNode n3 = new ListNode<>(3);
         n2.next = n3;
-        ListNode newHead = reverseListByInsertHead(n1);
-        System.out.println(newHead.value);
+        ListNode newHead = reverseList(n1);
+        System.out.println(newHead.val);
 
     }
-
 
 
 }

@@ -1,6 +1,7 @@
 package com.yc.algorithm.algorithm.commonly;
 
 import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author: josan_tang
@@ -9,83 +10,125 @@ import java.util.HashMap;
  * @version:
  */
 class LRUCache {
+
     public static void main(String[] args) {
-        LRUCache lruCache = new LRUCache(3);
-        lruCache.put(1, 1);
+        LRUCache lruCache = new LRUCache(2);
+        lruCache.put(1,1);
+        lruCache.put(2,2);
+        System.out.println(lruCache.get(1));
+        lruCache.put(3,3);
+        System.out.println(lruCache.get(2));
     }
 
-    class DLinkedNode{
+    class Entry {
+        Entry prev;
+        Entry next;
         int key;
         int value;
-        DLinkedNode prev;
-        DLinkedNode next;
-        public DLinkedNode() {};//一定要有无参构造方法  否则head tail无法初始化
-        public DLinkedNode(int key,int value){
+
+        public Entry() {
+        }
+
+        public Entry(int key, int value) {
             this.key = key;
             this.value = value;
         }
     }
-    private HashMap<Integer,DLinkedNode> cache = new HashMap<>();// 存放缓存的信息 缓存的结构是键值对
-    private DLinkedNode head;
-    private DLinkedNode tail;
+
+    /**
+     * 缓存容量
+     */
     private int capacity;
+
+    /**
+     * 缓存占有数
+     */
     private int size;
 
+    /**
+     * 存放数据的map
+     */
+    Map<Integer, Entry> cache;
+
+    /**
+     * 头部、尾部虚拟节点
+     */
+    private Entry head, tail;
+
+    /**
+     * 初始化
+     *
+     * @param capacity
+     */
     public LRUCache(int capacity) {
-        //初始化 建立 head和tail的关联
         this.capacity = capacity;
-        size = 0;
-        head = new DLinkedNode();
-        tail = new DLinkedNode();
+        this.size = 0;
+        cache = new HashMap<>(capacity);
+        head = new Entry();
+        tail = new Entry();
         head.next = tail;
         tail.prev = head;
     }
 
-    public int get(int key) {
-        DLinkedNode node = cache.get(key);
-        if(node == null){
-            return -1;
-        }
-        moveToHead(node);
-        return node.value;
-    }
-    public void put(int key,int value) {
-        DLinkedNode node = cache.get(key);
-        if(node==null){
-            DLinkedNode newhead = new DLinkedNode(key,value);
-            cache.put(key,newhead);
-            addToHead(newhead);
-            size++;
-            if(size>capacity){// 核心代码
-                DLinkedNode res = removeTail();// 删除缓存时需要同步到cache中
-                cache.remove(res.key);
+    public void put(int key, int value) {
+        Entry entry = cache.get(key);
+        if (entry != null) {
+            //如果存在，更新数据，移动到尾部
+            entry.value = value;
+            handleMoveToTail(entry);
+        } else {
+            //如果不存在
+            //如果现在容器已满，需要先删除头部节点
+            if (size == capacity) {
+                Entry firstEntry = head.next;
+                deleteEntry(firstEntry);
+                //这里移除的key是有效首节点的key，不是设置的key,也不能用head.nexe.key，因为上述会改变head.nexe
+                cache.remove(firstEntry.key);
                 size--;
             }
-        }else{
-            node.value = value;
-            moveToHead(node);
+            //把节点加入到连表尾部
+            Entry newEntry = new Entry(key, value);
+            addToTail(newEntry);
+            cache.put(key, newEntry);
+            size++;
         }
     }
 
-    public void addToHead(DLinkedNode node){// 添加到头部
-        node.next = head.next;
-        node.prev = head;
-        head.next.prev = node;
-        head.next = node;
-    }
-    private void moveToHead(DLinkedNode node) {// 移动到头部 = 删除该节点并添加该节点到头部
-        // 删除前驱后继关系  和头结点及其next建立联系
-        removeNode(node);
-        addToHead(node);
-    }
-    private void removeNode(DLinkedNode node) {//移除某一节点
-        node.next.prev = node.prev;
-        node.prev.next = node.next;
+    private void handleMoveToTail(Entry entry) {
+        deleteEntry(entry);
+        addToTail(entry);
     }
 
-    public DLinkedNode removeTail(){// 移除最近最少使用的缓存 也就是尾结点
-        DLinkedNode res = tail.prev;
-        removeNode(res);
-        return res;
+    /**
+     * 删除节点
+     *
+     * @param entry
+     */
+    private void deleteEntry(Entry entry) {
+        entry.prev.next = entry.next;
+        entry.next.prev = entry.prev;
+    }
+
+    /**
+     * 增加到尾部
+     *
+     * @param entry
+     */
+    private void addToTail(Entry entry) {
+        entry.prev = tail.prev;
+        entry.next = tail;
+        tail.prev.next = entry;
+        tail.prev = entry;
+    }
+
+    public int get(int key) {
+        Entry entry = cache.get(key);
+        if (entry != null) {
+            handleMoveToTail(entry);
+            return entry.value;
+        } else {
+            return -1;
+        }
     }
 }
+
