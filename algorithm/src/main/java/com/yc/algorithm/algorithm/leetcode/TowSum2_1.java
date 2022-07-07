@@ -14,9 +14,9 @@ import java.util.Map;
 public class TowSum2_1 {
 
     public static void main(String[] args) {
-        int[] numbers = {1,2,2,7,11,15};
-        int target = 9;
-        System.out.println(Arrays.toString(twoSum2(numbers, target)));
+        int[] numbers = {3,2,4};
+        int target = 6;
+        System.out.println(Arrays.toString(twoSum4(numbers, target)));
     }
 
 
@@ -56,6 +56,46 @@ public class TowSum2_1 {
             } else {
                 start++;
             }
+        }
+        return null;
+    }
+
+    /**
+     * 时间复杂度为n^2的方式
+     * @param nums
+     * @param target
+     * @return
+     */
+    public static int[] twoSum3(int[] nums, int target) {
+        for(int i = 0; i < nums.length - 1; i++) {
+            for(int j = i+1; j < nums.length; j++) {
+                if (nums[i] + nums[j] == target) {
+                    return new int[]{i, j};
+                }
+            }
+        }
+        return null;
+    }
+
+    /**
+     * 哈希表实现双数之和
+     * 时间复杂度O(n)
+     * 空间复杂度O(n)
+     * @param nums
+     * @param target
+     * @return
+     */
+    public static int[] twoSum4(int[] nums, int target) {
+        //用一个哈希表存储遍历过的数据相关信息
+        //key:nums[i],value:i
+        Map<Integer, Integer> exist = new HashMap<>();
+        for (int i = 0; i < nums.length; i++) {
+            if(exist.containsKey(target - nums[i])) {
+                //如果存在，则找到目标,当前i其实为结果的第二个元素
+                return new int[]{exist.get(target - nums[i]), i};
+            }
+            //如果不存在，则把当前的数据放到map中
+            exist.put(nums[i], i);
         }
         return null;
     }
