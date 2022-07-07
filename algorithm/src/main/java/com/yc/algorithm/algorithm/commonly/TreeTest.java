@@ -1,7 +1,9 @@
 package com.yc.algorithm.algorithm.commonly;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author: josan_tang
@@ -36,7 +38,7 @@ public class TreeTest {
         TreeNode node2 = new TreeNode(9);
         TreeNode node3 = new TreeNode(node4, node5, 4);
         TreeNode root = new TreeNode(node2, node3, 3);
-        System.out.println(isBalanced(root));
+        System.out.println(rob(root));
     }
 
 
@@ -138,4 +140,41 @@ public class TreeTest {
             return ((Math.abs(maxDepth(root.left) - maxDepth(root.right))) <= 1) && isBalanced(root.left) && isBalanced(root.right);
         }
     }
+
+
+    //f存储选中对应的值包括节点自身的值；g存储未选中对应的
+    static Map<TreeNode, Integer> f = new HashMap<>();
+    static Map<TreeNode, Integer> g = new HashMap<>();
+
+    /**
+     * 337. 打家劫舍 III
+     * 小偷又发现了一个新的可行窃的地区。这个地区只有一个入口，我们称之为 root 。
+     *
+     * 除了 root 之外，每栋房子有且只有一个“父“房子与之相连。一番侦察之后，聪明的小偷意识到“这个地方的所有房屋的排列类似于一棵二叉树”。 如果 两个直接相连的房子在同一天晚上被打劫 ，房屋将自动报警。
+     *
+     * 给定二叉树的 root 。返回 在不触动警报的情况下 ，小偷能够盗取的最高金额 。
+     *
+     * 来源：力扣（LeetCode）
+     * 链接：https://leetcode.cn/problems/house-robber-iii
+     * 著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。
+     * @param root
+     * @return
+     */
+    public static int rob(TreeNode root) {
+        dfs(root);
+        return Math.max(f.getOrDefault(root, 0), g.getOrDefault(root, 0));
+    }
+
+    private static void dfs(TreeNode treeNode) {
+        if (treeNode == null) {
+            return;
+        }
+        dfs(treeNode.left);
+        dfs(treeNode.right);
+        f.put(treeNode, treeNode.value + g.getOrDefault(treeNode.left, 0) + g.getOrDefault(treeNode.right, 0));
+        g.put(treeNode, Math.max(f.getOrDefault(treeNode.left, 0), g.getOrDefault(treeNode.left,0)) +
+                Math.max(f.getOrDefault(treeNode.right, 0), g.getOrDefault(treeNode.right,0)));
+    }
+
+
 }
