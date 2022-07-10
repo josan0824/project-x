@@ -20,7 +20,7 @@ public class BinarySearch {
             arr[i] = i;
         }
         for (int i = 0; i < 10; i++) {
-            System.out.println("i:" + i +  ",index:" + binarySearchNew(arr, i));
+            System.out.println("i:" + i +  ",index:" + binarySearchByRecursion(arr, i));
         }
     }
 
@@ -76,6 +76,39 @@ public class BinarySearch {
             }
         }
         return -1;
+    }
+
+    /**
+     * 使用递归来实现二分查找
+     * @param arr
+     * @param key
+     * @return
+     */
+    public static int binarySearchByRecursion(int[] arr, int key)  {
+        return binarySearchPart(arr, 0, arr.length - 1, key);
+    }
+
+    /**
+     * 针对数组的部分进行查找
+     * @param arr
+     * @param left
+     * @param right
+     * @param key
+     * @return
+     */
+    public static int binarySearchPart (int[] arr, int left, int right,int key) {
+        //当左边大于右边时，表示没有找到合适的元素
+        if (left > right) {
+            return -1;
+        }
+        int mid = (right - left) / 2 + left;
+        if (arr[mid] == key) {
+            return mid;
+        } else if (arr[mid] > key) {
+            return binarySearchPart(arr, left, mid - 1, key);
+        } else {
+            return binarySearchPart(arr, mid + 1, right, key);
+        }
     }
 
 }
