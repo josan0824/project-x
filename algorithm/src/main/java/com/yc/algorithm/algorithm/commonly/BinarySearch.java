@@ -15,13 +15,39 @@ public class BinarySearch {
     return the index : 2*/
 
     public static void main(String[] args) {
-        int[] arr = new int[10];
-        for (int i = 0; i < 10; i++) {
-            arr[i] = i;
+
+        int[] arr = new int[] {1,3,4,5,6,8,8,8,11,18};
+        System.out.println(bsearch(arr, arr.length,8));
+    }
+
+    /**
+     * 有重复元素时，找到最小的一个
+     * @param a
+     * @param n
+     * @param value
+     * @return
+     */
+    public static int bsearch(int[] a, int n, int value) {
+        int low = 0;
+        int high = n - 1;
+        while (low <= high) {
+            int mid = low + ((high - low) >> 1);
+            if (a[mid] > value) {
+                high = mid - 1;
+            } else if (a[mid] < value) {
+                low = mid + 1;
+            } else {
+                if ((mid == 0) || (a[mid - 1] != value)) return mid;
+                else  {
+                    int target = mid;
+                    while (a[target - 1] == value) {
+                        target--;
+                    }
+                    return target;
+                }
+            }
         }
-        for (int i = 0; i < 10; i++) {
-            System.out.println("i:" + i +  ",index:" + binarySearchByRecursion(arr, i));
-        }
+        return -1;
     }
 
     /**
