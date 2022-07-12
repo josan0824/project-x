@@ -70,9 +70,11 @@ public class RedisLockController {
         RLock lock = redisson.getLock(lockKey);
         try {
             //等待时间，超时时间，单位
-            if (lock.tryLock(5, 20, TimeUnit.SECONDS)) {
+            //超时时间如果不设置，会使用看门狗进行自动续约，默认30，每30/3秒进行一次重写设置到30
+            //lock.tryLock(20, TimeUnit.SECONDS)
+            if (lock.tryLock(20, 30, TimeUnit.SECONDS)) {
                 LogHelper.writeInfoLog(this.getClass().getSimpleName(), "getRedissionLock", "得到分布式锁" +  Thread.currentThread().getName());
-                Thread.sleep(8000);
+                Thread.sleep(50000);
             } else {
                 LogHelper.writeInfoLog(this.getClass().getSimpleName(), "getRedissionLock", "未获得分布式锁" +  Thread.currentThread().getName());
             }
