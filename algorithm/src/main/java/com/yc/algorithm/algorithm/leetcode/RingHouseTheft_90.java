@@ -1,6 +1,6 @@
 package com.yc.algorithm.algorithm.leetcode;
 
-class Test {
+class Test2 {
     public static void main(String[] args) {
         RingHouseTheft_90 solution = new RingHouseTheft_90();
         //testcase1 [0] 0

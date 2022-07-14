@@ -20,6 +20,8 @@ class ListNode {
 
 /**
  * 链表反转
+ 在遍历链表时，将当前节点的 \textit{next}next 指针改为指向前一个节点。由于节点没有引用其前一个节点，因此必须事先存储其前一个节点。
+ 在更改引用之前，还需要存储后一个节点。最后返回新的头引用。
  */
 class ReverseLinkedList_206 {
     public static void main(String[] args) {
@@ -32,20 +34,16 @@ class ReverseLinkedList_206 {
         System.out.println("ans:" + ans);
     }
     public static ListNode reverseList(ListNode head) {
+        //存储前面的节点
         ListNode prev = null;
         ListNode curr = head;
-        //如果当前节点不为空，则循环
         while (curr != null) {
-            //先获取下一个节点
             ListNode next = curr.next;
-            //当前取出的节点的下一个元素指向头节点
+            //反向指向前一个元素
             curr.next = prev;
-            //头节点指向当前元素
             prev = curr;
-            //指针往后移动
             curr = next;
         }
-        //返回头节点
         return prev;
     }
 }
