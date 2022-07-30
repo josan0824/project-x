@@ -1,3 +1,4 @@
+/*
 package com.yc.algorithm.algorithm.leetcode;
 
 
@@ -18,11 +19,13 @@ class ListNode {
     }
 }
 
+*/
 /**
  * 链表反转
  在遍历链表时，将当前节点的 \textit{next}next 指针改为指向前一个节点。由于节点没有引用其前一个节点，因此必须事先存储其前一个节点。
  在更改引用之前，还需要存储后一个节点。最后返回新的头引用。
- */
+ *//*
+
 class ReverseLinkedList_206 {
     public static void main(String[] args) {
         ListNode node5 = new ListNode(5);
@@ -48,3 +51,4 @@ class ReverseLinkedList_206 {
     }
 }
 
+*/
