@@ -57,9 +57,11 @@ public class StreamJava8 {
         List<Student> studentList2 = new ArrayList<>();
         Student student21 = new Student();
         student21.setId("2");
+        student21.setName("josan");
         studentList2.add(student21);
         Student student22 = new Student();
         student22.setId("1");
+        student22.setName("josan");
         studentList2.add(student22);
         System.out.println(updateBeanList(studentList2));
 
@@ -70,6 +72,13 @@ public class StreamJava8 {
         joinList.add("josan3");
 
         System.out.println("joining str:" + joining(joinList));
+
+        List<String> nameList =  useDistinct(studentList2);
+        System.out.println("nameList str:" + nameList);
+    }
+
+    public static List<String> useDistinct(List<Student> studentList) {
+        return studentList.stream().map(Student::getName).distinct().collect(Collectors.toList());
     }
 
     /**
