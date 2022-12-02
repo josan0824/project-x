@@ -29,6 +29,5 @@
         <module>algorithm</module>
         <module>java/java-basic</module>
         <module>mybatisDemo</module>
-        <module>mybatis-demo</module>
     </modules>
 </project>
