@@ -1,11 +1,28 @@
-NACOS_CONFIG_ADDR: http://localhost:8848
+server:
+  port : 8081
 spring:
-  application :
+  application:
     name : yc-core
+  ##关闭nacos
   cloud:
     nacos:
       config:
-        server-addr: ${NACOS_CONFIG_ADDR}
-        file-extension: yaml
+        enabled: false
       discovery:
-        server-addr: ${NACOS_CONFIG_ADDR}
+        enabled: false
+        instance-enabled: false
+test:
+  name : lisi
+
+#------nacos配置方式-----
+#NACOS_CONFIG_ADDR: http://localhost:8848
+#spring:
+#  application :
+#    name : yc-core
+#  cloud:
+#    nacos:
+#      config:
+#        server-addr: ${NACOS_CONFIG_ADDR}
+#        file-extension: yaml
+#      discovery:
+#        server-addr: ${NACOS_CONFIG_ADDR}
