@@ -3,6 +3,8 @@ server:
 spring:
   application:
     name : yc-core
+  profiles:
+    active: dev
   ##关闭nacos
   cloud:
     nacos:
