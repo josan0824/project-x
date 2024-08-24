@@ -1,11 +1,12 @@
 package com.yc.javabasic.collection;
 
+import cn.hutool.core.collection.CollUtil;
+import cn.hutool.core.util.ReflectUtil;
 import com.yc.javabasic.bean.Student;
 import com.yc.javabasic.bean.Student2;
 import com.yc.javabasic.bean.StudentScore;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -15,14 +16,41 @@ import java.util.stream.Collectors;
  * @version:
  */
 public class StreamJava8 {
+
+    public static <T> Map<Object, List<Student>> groupSortRowVo(List<Student> groupDetails) {
+        if (CollUtil.isEmpty(groupDetails)) {
+            return new HashMap<>();
+        }
+        Comparator<Student> comparator = Comparator.comparing(
+                t -> (Comparable) ReflectUtil.getFieldValue(t, "id"));
+        return groupDetails.stream()
+                .filter(t -> ReflectUtil.getFieldValue(t, "id") != null)
+                .sorted(comparator)
+                .collect(Collectors.groupingBy(
+                        t -> ReflectUtil.getFieldValue(t, "id"),
+                        LinkedHashMap::new, Collectors.toList()));
+    }
+
+
     public static void main(String[] args) {
         List<Student> studentList = new ArrayList<>();
         Student student1 = new Student();
-        student1.setId("2");
+        student1.setId("甲级");
         studentList.add(student1);
         Student student2 = new Student();
-        student2.setId("1");
+        student2.setId("乙级");
         studentList.add(student2);
+        Student student3 = new Student();
+        student3.setId("产业楼宇");
+        studentList.add(student3);
+        Student student4 = new Student();
+        student4.setId("优质楼宇");
+        studentList.add(student4);
+        studentList = studentList.subList(0, 3);
+
+         Map<Object, List<Student>> map = groupSortRowVo(studentList);
+
+
         //把属性筛选出来形成List<String>
         System.out.println(filterBeanAttr(studentList));
 

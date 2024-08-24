@@ -16,6 +16,25 @@ spring:
 test:
   name : lisi
 
+# 项目相关配置
+ai:
+  # 名称
+  name: srd-bd-boot
+  # 版本
+  version: 1.0.0
+  # 版权年份
+  copyrightYear: 2021
+  # 实例演示开关
+  demoEnabled: true
+  # 文件路径
+  profile: /app/uploadPath
+  # 获取ip地址开关
+  addressEnabled: false
+  # 是否需要验证码
+  requiredCaptcha: false
+  # 验证码类型 math 数组计算 char 字符验证
+  captchaType: char
+
 #------nacos配置方式-----
 #NACOS_CONFIG_ADDR: http://localhost:8848
 #spring:

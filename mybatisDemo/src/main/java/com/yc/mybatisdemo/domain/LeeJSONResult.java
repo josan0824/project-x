@@ -1,4 +1,4 @@
-package com.yc.core.model.response;
+package com.yc.mybatisdemo.domain;
 
 import java.util.List;
 

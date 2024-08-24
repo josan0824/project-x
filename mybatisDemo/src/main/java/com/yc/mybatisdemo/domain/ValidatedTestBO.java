@@ -1,4 +1,4 @@
-package com.yc.core.model.bo;
+package com.yc.mybatisdemo.domain;
 
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -40,6 +40,7 @@ public class ValidatedTestBO {
     @NotBlank(message = "用户昵称不能为空")
     @ApiModelProperty(value = "用户昵称", name = "nickname", example = "josan")
     private String nickName;
+
     @Max(value = 20, message = "用户年龄不能超过20")
     private Integer age;
 
@@ -47,14 +48,16 @@ public class ValidatedTestBO {
     @Length(max = 6, min = 3, message = "用户长度需要为3-6位")
     private String username;
 
-    @NotBlank(message = "{pwd.not.null}")
-    @Pattern(regexp = "/^(?![0-9]+$)(?![a-zA-Z]+$)[0-9A-Za-z]{6,10}$/", message = "密码必须是6~10位数字和字母的组合 ")
-    private String password;
-
-    @Pattern(regexp = "^((13[0-9])|(15[^4,\\D])|(18[0,5-9]))\\d{8}$", message = "手机号格式不正确")
-    private String phone;
-
     @Email(message = "邮件格式错误")
     private String email;
+
+    @ApiModelProperty(value = "地址", example = "南京东路")
+    @NotBlank(message = "地址不能为空")
+    private String address;
+
+    @ApiModelProperty(value = "手机号", example = "13888888888")
+    @NotBlank(message = "手机号不能为空")
+    @Pattern(regexp = "^1[35678]\\d{9}$", message = "手机号格式错误")
+    private String phone;
 
 }

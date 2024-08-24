@@ -7,12 +7,13 @@ import com.baomidou.mybatisplus.core.toolkit.StringUtils;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.yc.mybatisdemo.controller.PinyinComparator;
 import com.yc.mybatisdemo.domain.PageAccountDTO;
 import com.yc.mybatisdemo.mapper.MyAccountMapper;
 import com.yc.mybatisdemo.model.MyAccount;
 import org.springframework.stereotype.Service;
 
-import javax.annotation.Resource;
+import java.text.Collator;
 import java.util.*;
 
 /**
@@ -28,7 +29,9 @@ public class AccountServiceImpl extends ServiceImpl<MyAccountMapper, MyAccount> 
 
     @Override
     public MyAccount getAccountByUrid(String urid) {
-         return this.getById(urid);
+        LambdaQueryWrapper<MyAccount> lambdaQueryWrapper = Wrappers.lambdaQuery();
+        lambdaQueryWrapper.eq(MyAccount::getId, urid);
+        return this.getOne(lambdaQueryWrapper);
     }
 
     /**
@@ -286,7 +289,7 @@ public class AccountServiceImpl extends ServiceImpl<MyAccountMapper, MyAccount> 
     public void insert() {
         List<MyAccount> myAccounts = new ArrayList<>();
         MyAccount myAccount = new MyAccount();
-        myAccount.setId("1000");
+        myAccount.setMerchantName("gaga");
         myAccounts.add(myAccount);
         this.saveBatch(myAccounts);
     }
@@ -318,5 +321,49 @@ public class AccountServiceImpl extends ServiceImpl<MyAccountMapper, MyAccount> 
         lambdaQueryWrapper.select("distinct merchant_name");
         List<MyAccount> myAccountList = this.list(lambdaQueryWrapper);
     }
+    public static final Comparator<Object> COMPARATOR = Collator.getInstance(Locale.CHINA);
 
+    public static void main(String[] args) {
+        List<MyAccount> accoutList = new ArrayList<>();
+        MyAccount myAccount1 = new MyAccount();
+        myAccount1.setMerchantName("闵行区");
+        accoutList.add(myAccount1);
+        MyAccount myAccount = new MyAccount();
+        myAccount.setMerchantName("浦东新区");
+        accoutList.add(myAccount);
+
+/*        Collections.sort(accoutList, (o1, o2) -> {
+            int index1 = merchantNameList.indexOf(o1.getMerchantName());
+            int index2 = merchantNameList.indexOf(o2.getMerchantName());
+            return Integer.compare(index1, index2);
+        });*/
+
+        PinyinComparator comparator = new PinyinComparator();
+
+        List<String> merchantNameList = Arrays.asList("孙","孟", "曾","怡");
+        Collections.sort(merchantNameList, (o1, o2) -> comparator.compare(o1, o2));
+
+
+        List<String> merchantNameList2 = new ArrayList<>();
+
+
+
+        merchantNameList2.add("闵行区");
+        merchantNameList2.add("浦东新区");
+        merchantNameList2.add("宝山区");
+        merchantNameList2.add("黄浦区");
+        merchantNameList2.add("徐汇区");
+
+        // 使用Collator获取中文拼音首字母排序
+        Collator collator = Collator.getInstance(Locale.CHINA);
+        Collections.sort(merchantNameList2, collator);
+
+        // 输出排序后的结果
+        for (String name : merchantNameList2) {
+            System.out.println(name);
+        }
+
+
+        System.out.println(accoutList);
+    }
 }

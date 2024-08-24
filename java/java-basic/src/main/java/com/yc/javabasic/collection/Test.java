@@ -3,6 +3,7 @@ package com.yc.javabasic.collection;
 import cn.hutool.core.collection.CollUtil;
 import com.yc.javabasic.bean.Student;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,4 +20,6 @@ public class Test {
 
 
     }
+
+
 }

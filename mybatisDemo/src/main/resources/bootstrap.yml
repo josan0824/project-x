@@ -1,12 +1,20 @@
 server:
   port: 8082
 spring:
-  application:
-    name: mybatisDemo
   cloud:
     nacos:
       config:
-        server-addr: ${NACOS_CONFIG_ADDR}
-        file-extension: yml
+        enabled: false
       discovery:
-        server-addr: ${NACOS_CONFIG_ADDR}
+        enabled: false
+        instance-enabled: false
+  application:
+    name: mybatisDemo
+  datasource:
+    username: root
+    password: Mysql1024
+    url: jdbc:mysql://127.0.0.1:3306/test?useUnicode=true&characterEncoding=utf8&rewriteBatchedStatements=true&useSSL=false&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true&allowMultiQueries=true
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    type: com.alibaba.druid.pool.DruidDataSource
+mybatis:
+  mapper-locations: classpath:mapper/*Mapper.xml

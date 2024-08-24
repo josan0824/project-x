@@ -37,6 +37,11 @@ public class ExcelUtil {
         initSheet.setAutoWidth(Boolean.TRUE);
     }
 
+    public static void main(String[] args) {
+        List<Object> result = readLessThan1000Row("/Users/josan.tang/Library/CloudStorage/OneDrive-JLL/Desktop/workspace/yc-demo/core/src/main/resources/结果.xls");
+        System.out.println("result = " + JSONArray.toJSONString(result));
+    }
+
     /**
      * 读取少于1000行数据
      *

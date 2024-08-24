@@ -16,10 +16,16 @@ import java.util.Date;
     */
 @Data
 public class MyAccount {
+
     /**
-    * 商家id，主键
+     * 主键
+     */
+    private int id;
+
+    /**
+    * 用户表id
     */
-    private String id;
+    private int urid;
 
     /**
     * 商家名称
@@ -37,6 +43,11 @@ public class MyAccount {
     private String password;
 
     /**
+     * 公司
+     */
+    private String company;
+
+    /**
     * 创建日期
     */
     private Date createdTime;
@@ -51,11 +62,11 @@ public class MyAccount {
     */
     private Integer delFlag;
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
